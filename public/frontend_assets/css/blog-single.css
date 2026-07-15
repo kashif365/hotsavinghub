@@ -1,0 +1,80 @@
+/* Single Blog Page Styles - matches provided static layout while using site header/footer */
+
+:root {
+  --blog-primary-color: #e31e24;
+  --blog-secondary-color: #ff5555;
+  --blog-text-color: #2d3748;
+  --blog-heading-color: #1a202c;
+  --blog-surface: #ffffff;
+  --blog-primary-light: #e31e2420;
+  --blog-primary-lighter: #e31e2410;
+}
+
+/* Page header (breadcrumb area) */
+.pgHd {
+  background: linear-gradient(90deg, var(--blog-primary-color) 0%, var(--blog-secondary-color) 100%);
+  color: #fff;
+  padding: 40px 0;
+}
+.pgHd .Wrp { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.pgHd .brdcrb { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.pgHd .brdcrb li a { color: rgba(255,255,255,.85); text-decoration: none; font-weight: 500; }
+.pgHd .brdcrb li a.active { color: #fff; }
+.pgHd h1 { color: #fff; font-size: 2.25rem; margin-top: 10px; }
+
+/* Split layout */
+.Sec.bg { background: #f7fafc; }
+.splt { max-width: 1200px; margin: 0 auto; padding: 40px 16px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+/* Content card */
+.wgtc .crd {
+  background: var(--blog-surface);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  padding: 28px;
+}
+.wgtc .crd .type { display: block; font-size: .9rem; color: #666; margin-bottom: 14px; }
+.wgtc .crd h1 { font-size: 2rem; color: var(--blog-heading-color); margin: 0 0 18px; }
+.wgtc .crd img { width: 100%; height: auto; border-radius: 10px; margin: 0 0 22px; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.wgtc .crd .content { color: var(--blog-text-color); line-height: 1.7; }
+.wgtc .crd .content h2, .wgtc .crd .content h3 { color: var(--blog-heading-color); margin: 24px 0 12px; }
+.wgtc .crd .content p { margin: 0 0 14px; }
+.wgtc .crd .content ul, .wgtc .crd .content ol { padding-left: 20px; margin: 0 0 14px; }
+
+/* Post navigation */
+.nav-posts { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 30px; padding-top: 16px; border-top: 1px solid #eaeaea; }
+.nav-posts a { color: var(--blog-primary-color); text-decoration: none; font-weight: 600; }
+.nav-posts a:hover { text-decoration: underline; }
+
+/* Sidebar widgets */
+.wgts .wgt { background: var(--blog-surface); border-radius: 14px; box-shadow: 0 6px 18px rgba(0,0,0,.06); padding: 22px; margin-bottom: 26px; }
+.wgts .wgt h3 { font-size: 1.25rem; color: var(--blog-heading-color); margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+
+/* Related post compact card */
+.wgts .sgBl { display: block; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,.05); margin-bottom: 18px; }
+.wgts .sgBl > a img { width: 100%; height: 140px; object-fit: cover; display: block; border-radius: 12px 12px 0 0; }
+.wgts .sgBl .txt { padding: 12px 14px; }
+.wgts .sgBl .txt h3 { font-size: 1rem; margin: 8px 0 8px; line-height: 1.4; }
+.wgts .sgBl .txt h3 a { color: var(--blog-heading-color); text-decoration: none; }
+.wgts .sgBl .txt h3 a:hover { color: var(--blog-primary-color); }
+.wgts .sgBl .txt .tags { font-size: .8rem; color: #888; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.wgts .sgBl .txt .tags span a { display: inline-block; background: #f0f0f0; color: #333; padding: 3px 8px; border-radius: 4px; text-decoration: none; font-weight: 500; }
+.wgts .sgBl .txt .tags time { color: #9aa2a9; font-size: .78rem; }
+.wgts .sgBl .ftr { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+.wgts .sgBl .ftr a { color: var(--blog-primary-color); text-decoration: none; font-weight: 600; }
+
+/* Related Categories buttons */
+.wgts .wgt .btns a { display: inline-block; margin: 0 6px 8px 0; padding: 6px 10px; border-radius: 6px; background: var(--blog-primary-lighter); color: var(--blog-primary-color); text-decoration: none; font-weight: 500; font-size: .85rem; }
+.wgts .wgt .btns a:hover { background: var(--blog-primary-light); }
+
+/* Side navigation placeholder (if used) */
+.sidenv { display: none; }
+
+/* Responsive */
+@media (max-width: 992px) {
+  .splt { grid-template-columns: 1fr; }
+  .pgHd { padding: 28px 0; }
+  .pgHd h1 { font-size: 1.75rem; }
+}
+
+

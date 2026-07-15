@@ -1,0 +1,38 @@
+User-agent: *
+Disallow: /cart/
+Disallow: /cgi-bin/
+Disallow: /search/
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /update/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Crawl-delay: 2
+
+User-agent: Uptimebot
+Disallow: /
+
+User-agent: UptimeRobot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: BLEXBot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: archive.org_bot
+Disallow: /
+
+# Updated Sitemap Path
+Sitemap: https://www.hotsavinghub.com/sitemap.xml

@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH="/home2/socialof/hotsaving_app/HotSaving\ Hub/"
+    - /bin/cp -R * "$DEPLOYPATH"
+    - /bin/cp -R public/* "/home2/socialof/hotsavinghub_public/"

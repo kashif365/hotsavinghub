@@ -1,0 +1,66 @@
+/* Brand overrides loaded after home.css — sets the CSS variables used by home.css to apply the site theme */
+:root {
+  /* Dynamic colors from admin settings - these will override the static values below */
+  /* Note: --primary-color is now set dynamically via inline CSS in layout */
+  --primaryColor: var(--primary-color, #2951c4) !important;
+  /* main brand */
+  --secondaryColor: var(--secondary-color, #2951c4) !important;
+  /* accent */
+  --secondaryLightColor: var(--primary-color, #2951c4) !important;
+  --tertiaryColor: var(--background-secondary-color, #fef08e) !important;
+  --quaternaryColor: var(--background-primary-color, #FAF9F5) !important;
+  --quaternaryDarkColor: var(--background-secondary-color, #F2F0E6) !important;
+  --greyColor: var(--secondary-color, #4B5563) !important;
+  --lightGreyColor: var(--background-secondary-color, #f8f9f8) !important;
+  --darkGreyColor: var(--secondary-color, #172730) !important;
+  --primaryTextColor: var(--text-color, #0F0F0F) !important;
+  --greyTextColor: var(--text-color, #6d6e71) !important;
+  --borderColor: var(--secondary-color, #D5D5D5) !important;
+  --scbtc: var(--primary-color, #2951c4) !important;
+  /* scrollbar/thumb color */
+}
+
+/* Small helpers that reinforce the brand look */
+.site-logo img {
+  height: 40px !important;
+  width: auto !important
+}
+
+a {
+  color: var(--primaryColor)
+}
+
+/* Make primary CTAs match brand */
+.cpBtn,
+.primaryBtn,
+.btn,
+.gsf a.vwAl {
+  color: #fff !important
+}
+
+/* Outline and secondary buttons */
+.secondaryBtn,
+.btn-outline {
+  background-color: var(--secondaryLightColor) !important;
+  color: #fff !important
+}
+
+/* Ensure coupon reveal decoration uses brand */
+.cpn .cpBtn[data-code]::before {
+  border-color: var(--primaryColor) !important;
+  color: var(--secondaryLightColor) !important;
+  background: none !important;
+  border: 2px solid;
+}
+
+/* Footer tweaks */
+footer .cols>div h4 {
+  color: var(--primaryColor) !important
+}
+
+/* Small responsiveness */
+@media(max-width: 550px) {
+  .site-logo img {
+    height: 34px !important
+  }
+}

@@ -1,0 +1,326 @@
+/* Mobile-Specific Optimizations for Home Page */
+
+/* Hide hero search bar on mobile and show header search */
+@media (max-width: 768px) {
+    .modern-hero .search-container {
+        display: none;
+    }
+
+    .mobile-search-trigger {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px;
+        background: var(--primary-color, #00bfff);
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .mobile-search-trigger:hover {
+        background: var(--secondary-color, #2951c4);
+        color: white;
+    }
+
+    /* Show header search button on mobile */
+    .header .hsbtn {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--primary-color, #00bfff);
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .header .hsbtn:hover {
+        background: var(--secondary-color, #2951c4);
+        color: white;
+    }
+
+    /* Hide original search popup */
+    .gsf {
+        display: none !important;
+    }
+
+    /* Ensure original search popup doesn't show */
+    .gsf.active {
+        display: none !important;
+    }
+}
+
+/* Hide mobile search trigger on desktop */
+@media (min-width: 769px) {
+    .mobile-search-trigger {
+        display: none !important;
+    }
+}
+
+/* Touch-friendly interactions */
+@media (max-width: 768px) {
+
+    /* Increase touch targets */
+    .deal-btn,
+    .search-btn,
+    .store-jewelry-link,
+    .category-link,
+    .view-all-link {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 16px;
+    }
+
+    /* Improve button spacing */
+    .deal-btn {
+        margin-top: 15px;
+    }
+
+    /* Better text readability */
+    .deal-title,
+    .store-jewelry-name,
+    .category-card h3 {
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    /* Optimize image loading */
+    .deal-cover-image,
+    .store-jewelry-image,
+    .category-image {
+        loading: lazy;
+        decoding: async;
+    }
+
+    /* Improve form inputs */
+    .search-input,
+    .newsletter input {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        padding: 12px 16px;
+        border-radius: 8px;
+    }
+
+    /* Better modal experience */
+    .search-modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* Optimize grid layouts */
+    .deals-grid,
+    .stores-jewelry-grid,
+    .categories-grid {
+        gap: 15px;
+    }
+
+    /* Improve card spacing */
+    .deal-card,
+    .store-jewelry-card,
+    .category-card {
+        margin-bottom: 15px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+
+    /* Single column layouts */
+    .deals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stores-jewelry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    /* Reduce padding */
+    .deal-card,
+    .store-jewelry-card,
+    .category-card {
+        padding: 15px;
+    }
+
+    /* Smaller text */
+    .deal-title {
+        font-size: 0.95rem;
+    }
+
+    .store-jewelry-name {
+        font-size: 0.9rem;
+    }
+
+    .category-card h3 {
+        font-size: 1rem;
+    }
+
+    /* Compact buttons */
+    .deal-btn {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    /* Better spacing */
+    .section-header {
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+    .modern-hero {
+        min-height: 50vh;
+        padding: 30px 0;
+    }
+
+    .modern-hero .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .modern-hero .hero-stats {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
+    .deal-cover-image,
+    .store-jewelry-image,
+    .category-image {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .modern-hero .floating-shapes .shape {
+        animation: none;
+    }
+
+    .deal-card,
+    .store-jewelry-card,
+    .category-card {
+        transition: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+
+    .deal-card,
+    .store-jewelry-card,
+    .category-card {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .deal-title,
+    .store-jewelry-name,
+    .category-card h3 {
+        color: #ffffff;
+    }
+
+    .section-title {
+        color: #ffffff;
+    }
+}
+
+/* Focus improvements for keyboard navigation */
+.deal-btn:focus,
+.search-btn:focus,
+.store-jewelry-link:focus,
+.category-link:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.1);
+}
+
+/* Loading states */
+.deal-card.loading,
+.store-jewelry-card.loading,
+.category-card.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Error states */
+.deal-card.error,
+.store-jewelry-card.error,
+.category-card.error {
+    border: 2px solid #ff4444;
+    background-color: #ffe6e6;
+}
+
+/* Success states */
+.deal-card.success,
+.store-jewelry-card.success,
+.category-card.success {
+    border: 2px solid #44ff44;
+    background-color: #e6ffe6;
+}
+
+/* Print styles */
+@media print {
+
+    .modern-hero,
+    .search-container,
+    .hero-stats {
+        display: none;
+    }
+
+    .deal-card,
+    .store-jewelry-card,
+    .category-card {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        color: #000 !important;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-contrast: high) {
+
+    .deal-card,
+    .store-jewelry-card,
+    .category-card {
+        border: 2px solid #000;
+    }
+
+    .deal-btn,
+    .search-btn {
+        border: 2px solid #000;
+    }
+}
+
+/* Performance optimizations */
+.deal-card,
+.store-jewelry-card,
+.category-card {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
