@@ -283,6 +283,417 @@
                         </div>
                     </div>
                 </div>
+            @if($sliders && $sliders->count() > 0)
+            <section class="hsc-hero">
+                <h1 class="hsc-sr-only">{{ $brandingSettings['site_name'] ?? 'Hotsavinghub' }} - Discount Codes & Voucher Codes</h1>
+                <div class="hsc-viewport" data-slide-count="{{ $sliders->count() }}">
+                    <div class="swiper hsc-swiper">
+                        <div class="swiper-wrapper">
+                            @foreach($sliders as $index => $slider)
+                                @php
+                                    $isRich = filled($slider->heading);
+                                    $hasLeft = $isRich && filled($slider->secondary_image);
+                                    $hasLogo = $isRich && filled($slider->logo);
+                                    $ctaText = $slider->cta_text ?: ($slider->cta_url ? 'Shop Now' : null);
+                                    $mainImgUrl = $slider->background_image
+                                        ? route('image.resize', ['path' => ltrim($slider->background_image, '/'), 'w' => 1200, 'h' => 500, 'q' => 85])
+                                        : null;
+                                    $leftImgUrl = $hasLeft
+                                        ? route('image.resize', ['path' => ltrim($slider->secondary_image, '/'), 'w' => 500, 'h' => 500, 'q' => 85])
+                                        : null;
+                                    $logoUrl = $hasLogo
+                                        ? route('image.resize', ['path' => ltrim($slider->logo, '/'), 'w' => 260, 'q' => 90])
+                                        : null;
+                                    $isFirst = $index === 0;
+                                @endphp
+                                <div class="swiper-slide">
+                                    <div class="hsc-card {{ $isRich ? 'hsc-card--rich' : 'hsc-card--simple' }} {{ $hasLeft ? '' : 'hsc-card--no-left' }}">
+                                        <div class="hsc-card-inner">
+                                            @if($isRich)
+                                                @if($hasLeft)
+                                                <div class="hsc-panel hsc-panel--left">
+                                                    <img src="{{ $leftImgUrl }}" alt="" width="500" height="500" {!! $isFirst ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' !!}>
+                                                </div>
+                                                @endif
+                                                <div class="hsc-panel hsc-panel--content">
+                                                    @if($slider->label)<span class="hsc-label">{{ $slider->label }}</span>@endif
+                                                    <h2 class="hsc-heading">{{ $slider->heading }}</h2>
+                                                    @if($slider->subtitle)<p class="hsc-subtitle">{{ $slider->subtitle }}</p>@endif
+                                                    @if($ctaText)<span class="hsc-cta">{{ $ctaText }}</span>@endif
+                                                </div>
+                                            @endif
+                                            <div class="hsc-panel hsc-panel--main">
+                                                @if($mainImgUrl)
+                                                    <img src="{{ $mainImgUrl }}" alt="{{ $slider->heading ?: 'Featured offer' }}" width="1200" height="500" {!! $isFirst ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' !!}>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @if($hasLogo)
+                                            <span class="hsc-badge" @if($slider->badge_color) style="--hsc-badge-color: {{ $slider->badge_color }};" @endif>
+                                                <img src="{{ $logoUrl }}" alt="{{ $slider->heading }} logo" width="130" height="130" loading="lazy" onerror="this.closest('.hsc-badge').style.display='none';">
+                                            </span>
+                                        @endif
+                                        @if($slider->cta_url)
+                                            <a href="{{ $slider->cta_url }}" class="hsc-stretched-link" aria-label="{{ $slider->heading ?: ($ctaText ?: 'View offer') }}"></a>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button type="button" class="hsc-nav hsc-nav--prev" aria-label="Previous slide">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button type="button" class="hsc-nav hsc-nav--next" aria-label="Next slide">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                    <div class="hsc-pagination"></div>
+                </div>
+            </section>
+
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
+            <style>
+                .hsc-sr-only {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    padding: 0;
+                    margin: -1px;
+                    overflow: hidden;
+                    clip: rect(0, 0, 0, 0);
+                    white-space: nowrap;
+                    border: 0;
+                }
+
+                .hsc-hero {
+                    position: relative;
+                    padding: 24px 0 32px;
+                    background: #f8f9fc;
+                    overflow-x: clip;
+                }
+
+                .hsc-viewport {
+                    position: relative;
+                    overflow: visible;
+                }
+
+                .hsc-swiper {
+                    position: relative;
+                    height: 360px;
+                    padding: 0 24px;
+                    overflow: visible !important;
+                }
+
+                .hsc-card {
+                    position: relative;
+                    height: 100%;
+                }
+
+                .hsc-card-inner {
+                    position: relative;
+                    height: 100%;
+                    border-radius: 30px;
+                    overflow: hidden;
+                    background: #fff;
+                    box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.18);
+                }
+
+                .hsc-card--rich .hsc-card-inner {
+                    display: grid;
+                    grid-template-columns: 25% 23% 52%;
+                }
+
+                .hsc-card--rich.hsc-card--no-left .hsc-card-inner {
+                    grid-template-columns: 34% 66%;
+                }
+
+                .hsc-card--simple .hsc-panel--main {
+                    height: 100%;
+                }
+
+                .hsc-panel {
+                    position: relative;
+                    min-width: 0;
+                    height: 100%;
+                }
+
+                .hsc-panel--left img,
+                .hsc-panel--main img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                }
+
+                .hsc-panel--content {
+                    background: #fff;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: 10px;
+                    padding: 24px 20px 76px;
+                }
+
+                .hsc-label {
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: var(--primary-color, #2951c4);
+                }
+
+                .hsc-heading {
+                    margin: 0;
+                    font-size: 1.35rem;
+                    line-height: 1.25;
+                    font-weight: 800;
+                    color: #0f172a;
+                    overflow-wrap: anywhere;
+                }
+
+                .hsc-subtitle {
+                    margin: 0;
+                    font-size: 0.9rem;
+                    color: #64748b;
+                }
+
+                .hsc-cta {
+                    margin-top: 6px;
+                    font-size: 0.8rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                    color: var(--primary-color, #2951c4);
+                    text-decoration: underline;
+                    text-underline-offset: 4px;
+                    width: fit-content;
+                }
+
+                .hsc-badge {
+                    --hsc-badge-color: var(--primary-color, #2951c4);
+                    position: absolute;
+                    left: 25%;
+                    bottom: 14px;
+                    transform: translate(-50%, 0);
+                    width: 124px;
+                    height: 124px;
+                    aspect-ratio: 1 / 1;
+                    box-sizing: border-box;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    background: #fff;
+                    border: 3px solid var(--hsc-badge-color);
+                    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 16px;
+                    z-index: 5;
+                }
+
+                .hsc-card--no-left .hsc-badge {
+                    left: 34%;
+                }
+
+                .hsc-badge img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    display: block;
+                }
+
+                .hsc-stretched-link {
+                    position: absolute;
+                    inset: 0;
+                    z-index: 4;
+                }
+
+                .hsc-stretched-link:focus-visible {
+                    outline: 3px solid var(--primary-color, #2951c4);
+                    outline-offset: -3px;
+                    border-radius: 30px;
+                }
+
+                .hsc-nav {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    z-index: 10;
+                    width: 46px;
+                    height: 46px;
+                    border-radius: 50%;
+                    border: none;
+                    background: #fff;
+                    color: #0f172a;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+                    transition: transform 0.2s ease, background 0.2s ease;
+                }
+
+                .hsc-nav:hover {
+                    background: var(--primary-color, #2951c4);
+                    color: #fff;
+                    transform: translateY(-50%) scale(1.06);
+                }
+
+                .hsc-nav:focus-visible {
+                    outline: 3px solid var(--primary-color, #2951c4);
+                    outline-offset: 2px;
+                }
+
+                .hsc-nav.swiper-button-disabled,
+                .hsc-nav:disabled {
+                    opacity: 0.35;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                }
+
+                .hsc-nav--prev { left: 6px; }
+                .hsc-nav--next { right: 6px; }
+
+                .hsc-viewport[data-slide-count="1"] .hsc-nav,
+                .hsc-viewport[data-slide-count="1"] .hsc-pagination {
+                    display: none;
+                }
+
+                .hsc-pagination {
+                    margin-top: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                }
+
+                .hsc-pagination .swiper-pagination-bullet {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: #d1d5db;
+                    opacity: 1;
+                    margin: 0;
+                    cursor: pointer;
+                }
+
+                .hsc-pagination .swiper-pagination-bullet:focus-visible {
+                    outline: 2px solid var(--primary-color, #2951c4);
+                    outline-offset: 2px;
+                }
+
+                .hsc-pagination .swiper-pagination-bullet-active {
+                    background: var(--primary-color, #2951c4);
+                    width: 22px;
+                    border-radius: 5px;
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .hsc-swiper .swiper-wrapper {
+                        transition-duration: 1ms !important;
+                    }
+                }
+
+                @media (max-width: 1023px) {
+                    .hsc-swiper { height: 320px; }
+                    .hsc-card--rich .hsc-card-inner { grid-template-columns: 27% 27% 46%; }
+                    .hsc-card--rich.hsc-card--no-left .hsc-card-inner { grid-template-columns: 38% 62%; }
+                    .hsc-badge { width: 96px; height: 96px; padding: 12px; }
+                    .hsc-panel--content { padding: 16px 14px 66px; gap: 6px; }
+                    .hsc-label { font-size: 0.62rem; }
+                    .hsc-heading { font-size: 1.05rem; }
+                    .hsc-subtitle { font-size: 0.8rem; }
+                }
+
+                @media (max-width: 767px) {
+                    .hsc-hero { padding: 16px 0 28px; }
+                    .hsc-swiper { height: 400px; padding: 0 16px; }
+
+                    .hsc-card--rich .hsc-card-inner,
+                    .hsc-card--rich.hsc-card--no-left .hsc-card-inner {
+                        display: flex;
+                        flex-direction: column;
+                        grid-template-columns: none;
+                    }
+
+                    .hsc-panel--left { display: none; }
+                    .hsc-panel--main { flex: 1 1 58%; }
+                    .hsc-panel--content {
+                        flex: 1 1 42%;
+                        padding: 16px;
+                        gap: 6px;
+                    }
+
+                    .hsc-heading { font-size: 1.1rem; }
+                    .hsc-cta { display: none; }
+
+                    .hsc-badge {
+                        left: 20px;
+                        bottom: auto;
+                        top: calc(58% - 46px);
+                        transform: none;
+                        width: 92px;
+                        height: 92px;
+                        padding: 10px;
+                    }
+
+                    .hsc-card--no-left .hsc-badge { left: 20px; }
+
+                    .hsc-nav { width: 38px; height: 38px; }
+                }
+            </style>
+
+            <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js"></script>
+            <script>
+                (function () {
+                    function initHeroCarousel() {
+                        var viewport = document.querySelector('.hsc-viewport');
+                        var el = document.querySelector('.hsc-swiper');
+                        if (!el || typeof Swiper === 'undefined') return;
+
+                        var slideCount = parseInt((viewport || el).getAttribute('data-slide-count'), 10) || 0;
+                        var multi = slideCount > 1;
+                        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                        var swiper = new Swiper(el, {
+                            loop: multi,
+                            centeredSlides: true,
+                            watchOverflow: true,
+                            grabCursor: multi,
+                            speed: reduceMotion ? 1 : 700,
+                            spaceBetween: 14,
+                            slidesPerView: 1.05,
+                            keyboard: { enabled: true, onlyInViewport: true },
+                            a11y: { enabled: true, prevSlideMessage: 'Previous slide', nextSlideMessage: 'Next slide' },
+                            navigation: { nextEl: '.hsc-nav--next', prevEl: '.hsc-nav--prev' },
+                            pagination: { el: '.hsc-pagination', clickable: true },
+                            autoplay: (multi && !reduceMotion) ? { delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+                            breakpoints: {
+                                640: { slidesPerView: 1.08, spaceBetween: 18 },
+                                1024: { slidesPerView: 1.12, spaceBetween: 22 },
+                                1280: { slidesPerView: 1.15, spaceBetween: 26 }
+                            }
+                        });
+
+                        if (multi && swiper.autoplay) {
+                            document.addEventListener('visibilitychange', function () {
+                                if (document.hidden) {
+                                    swiper.autoplay.stop();
+                                } else {
+                                    swiper.autoplay.start();
+                                }
+                            });
+                        }
+                    }
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initHeroCarousel);
+                    } else {
+                        initHeroCarousel();
+                    }
+                })();
+            </script>
+            @else
             <section class="modern-coupon-hero">
     <!-- Background Image with Overlay -->
     <div class="hero-background">
@@ -647,6 +1058,7 @@
         }
     }
 </style>
+            @endif
 
 <div class="modern-categories-section">
     <div class="cat-container">
@@ -1374,63 +1786,192 @@ document.addEventListener('DOMContentLoaded', () => {
             </h2>
             <p class="section-subtitle">Explore amazing deals from your favorite top-rated brands</p>
         </div>
-        <div class="featured-stores-grid">
-            @forelse($featuredStores ?? [] as $index => $store)
-                @php
-                    $firstCoupon = $store->coupons()->where('status', 1)->orderBy('sort_order', 'asc')->first();
-                    $offerText = $firstCoupon ? ($firstCoupon->coupon_title ?? 'Save ' . rand(20, 70) . '% Off') : 'Save ' . rand(20, 70) . '% Off';
-                    if (strlen($offerText) > 22) {
-                        $offerText = substr($offerText, 0, 20) . '...';
-                    }
-                @endphp
-                <div class="featured-store-card @if($index >= 12) hide-on-desktop @endif @if($index >= 6) hide-on-mobile @endif">
-                    <a href="{{ route('store', $store->seo_url) }}" class="featured-store-link">
-                        <div class="featured-store-logo-area">
-                            @if($store->store_logo && file_exists(public_path(ltrim($store->store_logo, '/'))))
-                                @php
-                                    $logoPath = ltrim($store->store_logo, '/');
-                                    if (!str_starts_with($logoPath, 'uploads/')) {
-                                        $logoPath = 'uploads/' . $logoPath;
-                                    }
-                                    $resizedUrl = route('image.resize', ['path' => $logoPath, 'w' => 240, 'q' => 80]);
-                                    $resizedUrl2x = route('image.resize', ['path' => $logoPath, 'w' => 120, 'q' => 80]);
-                                @endphp
-                                <img src="{{ $resizedUrl2x }}"
-                                     alt="{{ $store->store_name }}"
-                                     class="featured-store-logo"
-                                     width="120"
-                                     height="60"
-                                     loading="lazy"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="featured-store-logo-placeholder" style="display: none !important;">
-                                    <span>{{ strtoupper(substr($store->store_name, 0, 2)) }}</span>
-                                </div>
-                            @else
-                                <div class="featured-store-logo-placeholder">
-                                    <span>{{ strtoupper(substr($store->store_name, 0, 2)) }}</span>
-                                </div>
-                            @endif
+        @if(($featuredStores ?? collect())->count() > 0)
+            <div class="swiper fs-swiper">
+                <div class="swiper-wrapper">
+                    @foreach($featuredStores as $store)
+                        @php
+                            $firstCoupon = $store->coupons()->where('status', 1)->orderBy('sort_order', 'asc')->first();
+                            $offerText = $firstCoupon ? ($firstCoupon->coupon_title ?? 'Save ' . rand(20, 70) . '% Off') : 'Save ' . rand(20, 70) . '% Off';
+                            if (strlen($offerText) > 22) {
+                                $offerText = substr($offerText, 0, 20) . '...';
+                            }
+                        @endphp
+                        <div class="swiper-slide">
+                            <div class="featured-store-card">
+                                <a href="{{ route('store', $store->seo_url) }}" class="featured-store-link">
+                                    <div class="featured-store-logo-area">
+                                        @if($store->store_logo && file_exists(public_path(ltrim($store->store_logo, '/'))))
+                                            @php
+                                                $logoPath = ltrim($store->store_logo, '/');
+                                                if (!str_starts_with($logoPath, 'uploads/')) {
+                                                    $logoPath = 'uploads/' . $logoPath;
+                                                }
+                                                $resizedUrl = route('image.resize', ['path' => $logoPath, 'w' => 240, 'q' => 80]);
+                                                $resizedUrl2x = route('image.resize', ['path' => $logoPath, 'w' => 120, 'q' => 80]);
+                                            @endphp
+                                            <img src="{{ $resizedUrl2x }}"
+                                                 alt="{{ $store->short_name }}"
+                                                 class="featured-store-logo"
+                                                 width="120"
+                                                 height="60"
+                                                 loading="lazy"
+                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="featured-store-logo-placeholder" style="display: none !important;">
+                                                <span>{{ strtoupper(substr($store->short_name, 0, 2)) }}</span>
+                                            </div>
+                                        @else
+                                            <div class="featured-store-logo-placeholder">
+                                                <span>{{ strtoupper(substr($store->short_name, 0, 2)) }}</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="featured-store-name">{{ $store->short_name }}</div>
+                                    <div class="featured-store-offers-btn">{{ $offerText }}</div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="featured-store-name">{{ $store->store_name }}</div>
-                        <div class="featured-store-offers-btn">{{ $offerText }}</div>
-                    </a>
+                    @endforeach
                 </div>
-            @empty
-                <div class="no-stores-message">
-                    <div class="no-stores-icon">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 7V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M3 7L5 21H19L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M8 11H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>No Featured Stores</h3>
-                    <p>We're working on adding amazing stores for you!</p>
+                <button type="button" class="fs-nav fs-nav--prev" aria-label="Previous stores">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button type="button" class="fs-nav fs-nav--next" aria-label="Next stores">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+        @else
+            <div class="no-stores-message">
+                <div class="no-stores-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 7V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M3 7L5 21H19L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M8 11H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
                 </div>
-            @endforelse
-        </div>
+                <h3>No Featured Stores</h3>
+                <p>We're working on adding amazing stores for you!</p>
+            </div>
+        @endif
     </div>
 </div>
+
+<style>
+.fs-swiper {
+    position: relative;
+    height: 270px;
+    overflow: hidden;
+    padding: 6px 4px 12px;
+}
+
+.fs-swiper .swiper-wrapper {
+    height: 100%;
+}
+
+.fs-swiper .swiper-slide {
+    height: auto;
+}
+
+.fs-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #fff;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.fs-nav:hover {
+    background: var(--primary-color, #2951c4);
+    color: #fff;
+    transform: translateY(-50%) scale(1.06);
+}
+
+.fs-nav:focus-visible {
+    outline: 3px solid var(--primary-color, #2951c4);
+    outline-offset: 2px;
+}
+
+.fs-nav.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.fs-nav--prev { left: -8px; }
+.fs-nav--next { right: -8px; }
+
+@media (max-width: 1024px) {
+    .fs-swiper { height: 250px; }
+}
+
+@media (max-width: 768px) {
+    .fs-swiper { height: 230px; }
+    .fs-nav { width: 34px; height: 34px; }
+    .fs-nav--prev { left: -4px; }
+    .fs-nav--next { right: -4px; }
+}
+
+@media (max-width: 480px) {
+    .fs-swiper { height: 220px; }
+}
+</style>
+
+<script>
+    (function () {
+        function initFeaturedStoresCarousel() {
+            var el = document.querySelector('.fs-swiper');
+            if (!el || typeof Swiper === 'undefined') return;
+
+            var slideCount = el.querySelectorAll('.swiper-slide').length;
+            var multi = slideCount > 1;
+            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            var swiper = new Swiper(el, {
+                loop: multi,
+                grabCursor: multi,
+                speed: reduceMotion ? 1 : 600,
+                spaceBetween: 16,
+                slidesPerView: 2,
+                keyboard: { enabled: true, onlyInViewport: true },
+                a11y: { enabled: true, prevSlideMessage: 'Previous stores', nextSlideMessage: 'Next stores' },
+                navigation: { nextEl: '.fs-nav--next', prevEl: '.fs-nav--prev' },
+                autoplay: (multi && !reduceMotion) ? { delay: 2200, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+                breakpoints: {
+                    480: { slidesPerView: 3, spaceBetween: 16 },
+                    768: { slidesPerView: 4, spaceBetween: 20 },
+                    1024: { slidesPerView: 5, spaceBetween: 24 }
+                }
+            });
+
+            if (multi && swiper.autoplay) {
+                document.addEventListener('visibilitychange', function () {
+                    if (document.hidden) {
+                        swiper.autoplay.stop();
+                    } else {
+                        swiper.autoplay.start();
+                    }
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFeaturedStoresCarousel);
+        } else {
+            initFeaturedStoresCarousel();
+        }
+    })();
+</script>
 <style>:root{--primary:#2951c4;--primary-glow:rgba(41,81,196,0.15);--bg:#ffffff;--card-bg:#ffffff;--text-dark:#0f172a;--text-muted:#64748b;--border-subtle:rgba(0,0,0,0.06);--radius-lg:24px;--radius-md:16px;--shadow-bento:0 10px 30px -5px rgba(0,0,0,0.05),0 4px 6px -2px rgba(0,0,0,0.02);--transition:all 0.4s cubic-bezier(0.23,1,0.32,1)}.hh-deals-wrapper{background-color:var(--bg);padding:5rem 0;font-family:system-ui,-apple-system,sans-serif}.hh-container{max-width:1400px;margin:0 auto;padding:0 1.5rem}.hh-cat-group{margin-bottom:6rem}.hh-cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem}.hh-cat-title{font-size:1.85rem;font-weight:850;color:var(--text-dark);display:flex;align-items:center;gap:12px;margin:0;letter-spacing:-0.02em}.hh-cat-icon{width:32px;height:32px;object-fit:contain}.hh-view-all{padding:10px 24px;background:var(--primary-glow);color:var(--primary);border-radius:99px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:var(--transition);border:1px solid transparent}.hh-view-all:hover{background:var(--primary);color:#fff;transform:translateY(-2px)}.hh-bento-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}.hh-deal-card{background:var(--card-bg);border-radius:var(--radius-lg);border:1px solid var(--border-subtle);position:relative;transition:var(--transition);display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-bento)}.hh-deal-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px -10px rgba(41,81,196,0.12);border-color:var(--primary)}.hh-img-container{position:relative;height:180px;margin:12px;border-radius:var(--radius-md);overflow:hidden;display:flex;align-items:center;justify-content:center}.hh-img-container img{width:100%;height:100%;object-fit:cover;transition:var(--transition)}.hh-deal-card:hover .hh-img-container img{transform:scale(1.1)}.hh-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.5rem;font-weight:900}.hh-card-body{padding:0 1.5rem 1.5rem;display:flex;flex-direction:column;flex-grow:1}.hh-store-tag{font-size:0.7rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}.hh-deal-title{font-size:1.15rem;font-weight:700;color:var(--text-dark);line-height:1.4;margin:0 0 1.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:3.2em}.hh-btn-stack{margin-top:auto;position:relative}.hh-main-btn{width:100%;padding:14px;border-radius:14px;border:none;font-weight:700;font-size:0.95rem;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:8px}.hh-btn-code{background:var(--text-dark);color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1)}.hh-btn-code:hover{background:var(--primary);transform:scale(1.02)}.hh-btn-deal{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(41,81,196,0.3)}.hh-btn-deal:hover{filter:brightness(1.1);transform:scale(1.02)}.hh-toast{position:fixed;bottom:30px;right:30px;background:var(--text-dark);color:#fff;padding:16px 28px;border-radius:16px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 40px rgba(0,0,0,0.2);transform:translateY(150%);transition:var(--transition);z-index:9999}.hh-toast.active{transform:translateY(0)}@media (max-width:1200px){.hh-bento-grid{grid-template-columns:repeat(3,1fr)}}@media (max-width:992px){.hh-bento-grid{grid-template-columns:repeat(2,1fr)}.hh-hide-tablet{display:none}}@media (max-width:640px){.hh-bento-grid{grid-template-columns:1fr}.hh-cat-title{font-size:1.4rem}.hh-hide-mobile{display:none}.hh-img-container{height:200px}}</style>
 <!-- Category Deals Section -->
 <section class="hh-deals-wrapper">
@@ -2634,148 +3175,6 @@ function handleGetDealClick(couponId, affiliate, store, title) {
 
 <!-- Modern Home Page Styles -->
 <style>
-/* Simple Image Slider Styles */
-.hero-slider-section {
-    border-radius: 10px;
-    position: relative;
-    width: 80%;
-    margin: 40px auto;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    // height: 500px;
-    overflow: hidden;
-    background: #f5f5f5;
-}
-
-.hero-slider-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.hero-slider-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-}
-
-.hero-slide {
-    position: relative;
-    min-width: 100%;
-    width: 100%;
-    height: 100%;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-.hero-slide {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-}
-
-.hero-slide-img {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    object-fit: cover;
-    display: block;
-    image-rendering: auto;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-}
-
-/* Navigation Arrows - Reference Website Style */
-.hero-slider-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: none;
-    color: #1e293b;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    opacity: 1;
-    visibility: visible;
-}
-
-.hero-slider-nav:hover {
-    background: #f8f9fa;
-    color: var(--primary-color);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.hero-slider-nav.prev-btn {
-    left: 2rem;
-}
-
-.hero-slider-nav.next-btn {
-    right: 2rem;
-}
-
-.hero-slider-nav svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* Pagination Dots */
-.hero-slider-dots {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    opacity: 1;
-    visibility: visible;
-}
-
-.hero-slider-dots .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.hero-slider-dots .dot.active {
-    background: var(--primary-color);
-    width: 32px;
-    border-radius: 6px;
-    border-color: var(--primary-color);
-}
-
-.hero-slider-dots .dot:hover {
-    background: rgba(0, 0, 0, 0.4);
-    transform: scale(1.2);
-}
-@media (max-width: 1600px) {
-    .hero-slider-container {
-        // height: 500px !important;
-    }
-
-}
 @media (max-width: 1200px) {
     .category-item{
         width: calc((100% - (4 * 1.5rem)) / 4) !important
@@ -2783,189 +3182,8 @@ function handleGetDealClick(couponId, affiliate, store, title) {
 }
 /* Mobile Responsive */
 @media (max-width: 992px) {
-    .hero-slider-section {
-        // height: 250px;
-        width: 100%;
-    }
     .category-item{
         width: calc((100% - (3 * 1.5rem)) / 3) !important
-    }
-    // .hero-slider-container {
-    //     height: 250px;
-    // }
-
-    .hero-slider-nav {
-        width: 44px;
-        height: 44px;
-        display: none !important;
-    }
-
-    .hero-slider-nav svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .hero-slider-nav.prev-btn {
-        left: 1.5rem;
-    }
-
-    .hero-slider-nav.next-btn {
-        right: 1.5rem;
-    }
-
-    .hero-slider-dots {
-        bottom: 1.5rem;
-        gap: 0.75rem;
-        display: none !important;
-    }
-
-    .hero-slider-dots .dot {
-        width: 10px;
-        height: 10px;
-    }
-
-    .hero-slider-dots .dot.active {
-        width: 28px;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-slider-section {
-        // height: 200px;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        border-radius: 0;
-    }
-
-    // .hero-slider-container {
-    //     height: 250px !important;
-    // }
-
-    .hero-slider-nav {
-        width: 40px;
-        height: 40px;
-        opacity: 0.9;
-    }
-
-    .hero-slider-nav svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .hero-slider-nav.prev-btn {
-        left: 0.75rem;
-    }
-
-    .hero-slider-nav.next-btn {
-        right: 0.75rem;
-    }
-
-    .hero-slider-dots {
-        bottom: 1rem;
-        gap: 0.625rem;
-    }
-
-    .hero-slider-dots .dot {
-        width: 8px;
-        height: 8px;
-    }
-
-    .hero-slider-dots .dot.active {
-        width: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-slider-section {
-        // height: 145px;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        border-radius: 0;
-    }
-
-    // .hero-slider-container {
-    //     height: 200px !important;
-    // }
-
-    .hero-slider-nav {
-        width: 36px;
-        height: 36px;
-        opacity: 0.85;
-    }
-
-    .hero-slider-nav svg {
-        width: 16px;
-        height: 16px;
-    }
-
-    .hero-slider-nav.prev-btn {
-        left: 0.5rem;
-    }
-
-    .hero-slider-nav.next-btn {
-        right: 0.5rem;
-    }
-
-    .hero-slider-dots {
-        bottom: 0.75rem;
-        gap: 0.5rem;
-    }
-
-    .hero-slider-dots .dot {
-        width: 8px;
-        height: 8px;
-    }
-
-    .hero-slider-dots .dot.active {
-        width: 20px;
-    }
-}
-
-@media (max-width: 360px) {
-    .hero-slider-section {
-        height: 110px;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        border-radius: 0;
-    }
-
-    .hero-slider-container {
-        height: 250px;
-    }
-
-    .hero-slider-nav {
-        width: 32px;
-        height: 32px;
-    }
-
-    .hero-slider-nav svg {
-        width: 14px;
-        height: 14px;
-    }
-
-    .hero-slider-nav.prev-btn {
-        left: 0.25rem;
-    }
-
-    .hero-slider-nav.next-btn {
-        right: 0.25rem;
-    }
-
-    .hero-slider-dots {
-        bottom: 0.5rem;
-        gap: 0.375rem;
-    }
-
-    .hero-slider-dots .dot {
-        width: 6px;
-        height: 6px;
-    }
-
-    .hero-slider-dots .dot.active {
-        width: 18px;
     }
 }
 
@@ -6614,232 +6832,6 @@ function generateDots() {
     }
 })();
 </script>
-
-<!-- Hero Slider JavaScript - Optimized -->
-<script>
-(function() {
-    function initHeroSlider() {
-        // Wait for DOM to be ready
-        if (document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(initHeroSlider, 100);
-            });
-            return;
-        }
-    const sliderWrapper = document.getElementById('heroSlider');
-    const slides = document.querySelectorAll('.hero-slide');
-    const prevBtn = document.getElementById('heroSliderPrev');
-    const nextBtn = document.getElementById('heroSliderNext');
-    const dots = document.querySelectorAll('#heroSliderDots .dot');
-
-    if (!sliderWrapper || slides.length === 0) return;
-
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let isTransitioning = false;
-    let autoPlayInterval;
-
-    // Only initialize slider if there's more than 1 slide
-    if (totalSlides <= 1) {
-        // Hide navigation if only 1 slide
-        if (prevBtn) prevBtn.style.display = 'none';
-        if (nextBtn) nextBtn.style.display = 'none';
-        return;
-    }
-
-    // Show navigation buttons
-    if (prevBtn) prevBtn.style.display = 'flex';
-    if (nextBtn) nextBtn.style.display = 'flex';
-
-    // Initialize slider
-    function initSlider() {
-        // Set initial transform
-        sliderWrapper.style.transform = 'translateX(0%)';
-
-        // Set initial active slide
-        if (slides.length > 0) {
-            slides[0].classList.add('active');
-        }
-        updateDots();
-        if (totalSlides > 1) {
-            startAutoPlay();
-        }
-    }
-
-    // Update dots
-    function updateDots() {
-        dots.forEach((dot, index) => {
-            if (index === currentSlide) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-
-    // Go to slide - Smooth one slide transition
-    function goToSlide(index) {
-        if (isTransitioning) return;
-
-        if (index < 0) {
-            index = totalSlides - 1;
-        } else if (index >= totalSlides) {
-            index = 0;
-        }
-
-        isTransitioning = true;
-
-        // Update current slide
-        currentSlide = index;
-
-        // Smooth transform transition
-        sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-        // Update active class
-        slides.forEach((slide, i) => {
-            if (i === currentSlide) {
-                slide.classList.add('active');
-            } else {
-                slide.classList.remove('active');
-            }
-        });
-
-        // Update dots
-        updateDots();
-
-        // Reset transition flag
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 600);
-    }
-
-    // Next slide
-    function nextSlide() {
-        const next = (currentSlide + 1) % totalSlides;
-        goToSlide(next);
-    }
-
-    // Previous slide
-    function prevSlide() {
-        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-        goToSlide(prev);
-    }
-
-    // Start auto play - use requestAnimationFrame for better performance
-    function startAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-        let lastTime = Date.now();
-        autoPlayInterval = setInterval(() => {
-            const now = Date.now();
-            if (now - lastTime >= 5000) {
-            nextSlide();
-                lastTime = now;
-            }
-        }, 5000);
-    }
-
-    // Stop auto play
-    function stopAutoPlay() {
-        if (autoPlayInterval) {
-            clearInterval(autoPlayInterval);
-            autoPlayInterval = null;
-        }
-    }
-
-    // Event listeners
-    if (nextBtn) {
-        nextBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            stopAutoPlay();
-            nextSlide();
-            startAutoPlay();
-        });
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            stopAutoPlay();
-            prevSlide();
-            startAutoPlay();
-        });
-    }
-
-    // Dot navigation
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            stopAutoPlay();
-            goToSlide(index);
-            startAutoPlay();
-        });
-    });
-
-    // Pause on hover
-    if (sliderWrapper) {
-        sliderWrapper.addEventListener('mouseenter', stopAutoPlay);
-        sliderWrapper.addEventListener('mouseleave', startAutoPlay);
-    }
-
-    // Touch/swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    if (sliderWrapper) {
-        sliderWrapper.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        sliderWrapper.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-    }
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Swipe left - next slide
-                stopAutoPlay();
-                nextSlide();
-                startAutoPlay();
-            } else {
-                // Swipe right - previous slide
-                stopAutoPlay();
-                prevSlide();
-                startAutoPlay();
-            }
-        }
-    }
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            stopAutoPlay();
-            prevSlide();
-            startAutoPlay();
-        } else if (e.key === 'ArrowRight') {
-            stopAutoPlay();
-            nextSlide();
-            startAutoPlay();
-        }
-    });
-
-    // Initialize
-    initSlider();
-    }
-
-    // Initialize hero slider
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initHeroSlider);
-    } else {
-        initHeroSlider();
-    }
-})();
-</script>
-
 
 <!-- Simple jQuery Search Implementation -->
 <style>

@@ -62,7 +62,7 @@ class FrontendController extends Controller
             ->where('featured', 1)
             ->where('status', 1)
             ->orderBy('sort_order', 'asc')
-            ->take(10)
+            ->take(14)
             ->get();
 
         // Load trending stores with optimized query
@@ -71,6 +71,14 @@ class FrontendController extends Controller
             ->orderBy('sort_order', 'asc')
             ->take(20)
             ->get();
+
+        // If no stores are manually marked trending, fall back to the most-viewed active stores
+        if ($trendingStores->isEmpty()) {
+            $trendingStores = Store::where('status', 1)
+                ->orderBy('views_count', 'desc')
+                ->take(20)
+                ->get();
+        }
 
         // Load featured categories with store counts for home page - 8 for desktop, CSS will hide 2 on mobile
         $categories = Category::withCount(['stores' => function($query) {
@@ -99,7 +107,7 @@ class FrontendController extends Controller
                     $query->whereIn('category_id', $homeCategoryIds);
                 })
                 ->where('status', 1)
-                ->where('featured', 1)
+                ->orderBy('featured', 'desc')
                 ->orderBy('sort_order', 'asc')
                 ->get();
                 
@@ -303,6 +311,14 @@ class FrontendController extends Controller
             ->orderBy('sort_order', 'asc')
             ->take(20)
             ->get();
+
+        // If no stores are manually marked trending, fall back to the most-viewed active stores
+        if ($trendingStores->isEmpty()) {
+            $trendingStores = Store::where('status', 1)
+                ->orderBy('views_count', 'desc')
+                ->take(20)
+                ->get();
+        }
 
         return view('frontend.top-discounts', compact('topCoupons', 'trendingStores'));
     }
@@ -787,6 +803,14 @@ class FrontendController extends Controller
             ->orderBy('sort_order', 'asc')
             ->take(30)
             ->get();
+
+        // If no stores are manually marked trending, fall back to the most-viewed active stores
+        if ($trendingStores->isEmpty()) {
+            $trendingStores = Store::where('status', 1)
+                ->orderBy('views_count', 'desc')
+                ->take(30)
+                ->get();
+        }
 
         return view('frontend.single_category', compact('category', 'stores', 'categoryCoupons', 'relatedCategories', 'trendingStores'));
     }

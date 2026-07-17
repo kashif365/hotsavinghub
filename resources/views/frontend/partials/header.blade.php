@@ -8,7 +8,54 @@
     <!-- snhead: Side Navigation Head <end> -->
 
     <a href="{{ route('top-discounts') }}">Top 20 Discounts</a>
-    <a href="{{ route('categories') }}">Categories</a>
+
+    <div class="sn-cat" id="snCat">
+        <button type="button" class="sn-cat-trigger" id="snCatTrigger" aria-expanded="false" aria-controls="snCatList">
+            Categories
+            <svg class="sn-cat-chevron" width="12" height="12" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3.5L5 6.5L8 3.5"/></svg>
+        </button>
+        <div class="sn-cat-list" id="snCatList">
+            <button type="button" class="sn-cat-row" data-sn-cat="popular">
+                <span>Popular</span>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(-90deg)"><path d="M2 3.5L5 6.5L8 3.5"/></svg>
+            </button>
+            @foreach($navCategoryMenu['categories'] ?? [] as $category)
+                <button type="button" class="sn-cat-row" data-sn-cat="cat-{{ $category->id }}">
+                    <span>{{ $category->category_name }}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(-90deg)"><path d="M2 3.5L5 6.5L8 3.5"/></svg>
+                </button>
+            @endforeach
+        </div>
+
+        <div class="sn-store-panel" data-sn-store-panel="popular">
+            <button type="button" class="sn-store-back" data-sn-back>
+                <svg width="12" height="12" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(90deg)"><path d="M2 3.5L5 6.5L8 3.5"/></svg>
+                Popular
+            </button>
+            @forelse($navCategoryMenu['popular'] ?? [] as $store)
+                <a href="{{ route('store', $store->seo_url) }}">{{ $store->short_name }}</a>
+            @empty
+                <p class="sn-store-empty">No stores available</p>
+            @endforelse
+            <a href="{{ route('categories') }}">All Stores</a>
+        </div>
+        @foreach($navCategoryMenu['categories'] ?? [] as $category)
+            <div class="sn-store-panel" data-sn-store-panel="cat-{{ $category->id }}">
+                <button type="button" class="sn-store-back" data-sn-back>
+                    <svg width="12" height="12" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(90deg)"><path d="M2 3.5L5 6.5L8 3.5"/></svg>
+                    {{ $category->category_name }}
+                </button>
+                <a href="{{ route('category', $category->seo_url) }}" class="sn-cat-view-all">View {{ $category->category_name }} deals</a>
+                @forelse($category->stores as $store)
+                    <a href="{{ route('store', $store->seo_url) }}">{{ $store->short_name }}</a>
+                @empty
+                    <p class="sn-store-empty">No stores available</p>
+                @endforelse
+                <a href="{{ route('categories') }}">All Stores</a>
+            </div>
+        @endforeach
+    </div>
+
     <a href="{{ route('events') }}">Events</a>
     <a href="{{ route('blog') }}">Blog</a>
     <a href="{{ route('privacy-policy') }}">Privacy Policy</a>
@@ -245,62 +292,75 @@
                     <!-- <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a> -->
                     <a href="{{ route('top-discounts') }}" class="nav-link {{ request()->routeIs('top-discounts') ? 'active' : '' }}">Top 20 Discounts</a>
 
-                    <!-- Trending Mega Menu -->
-                    <div class="nav-dropdown mega-dropdown">
-                        <a href="#" class="nav-link">
-                            Trending
-                            <svg class="dropdown-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3.5L5 6.5L8 3.5"/>
-                            </svg>
-                        </a>
-                        <div class="dropdown-menu mega-menu">
-                            @if(isset($trendingStores) && $trendingStores->count() > 0)
-                                    @php
-                                        $storesPerColumn = ceil($trendingStores->count() / 5);
-                                        $chunkedStores = $trendingStores->chunk($storesPerColumn);
-                                    @endphp
-                                <div class="mega-menu-content">
-                                    @foreach($chunkedStores as $columnStores)
-                                        <div class="mega-menu-column">
-                                            @foreach($columnStores as $store)
-                                                <a href="{{ route('store', $store->seo_url) }}">{{ $store->store_name }}</a>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
+                        <!-- Trending Compact Menu -->
+                        <div class="cat-menu" id="trendMenu">
+                            <button type="button"
+                                    class="nav-link cat-menu-trigger"
+                                    id="trendMenuTrigger"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    aria-controls="trendMenuPanel">
+                                Trending
+                                <svg class="dropdown-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 3.5L5 6.5L8 3.5"/>
+                                </svg>
+                            </button>
+                            <div class="cat-menu-panel trend-menu-panel" id="trendMenuPanel" aria-label="Trending stores">
+                                <div class="cat-menu-stores">
+                                    <div class="cat-menu-store-panel is-active">
+                                        @forelse($trendingStores ?? [] as $store)
+                                            <a href="{{ route('store', $store->seo_url) }}">{{ $store->short_name }}</a>
+                                        @empty
+                                            <p class="cat-menu-empty">No trending stores available</p>
+                                        @endforelse
+                                    </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Categories Mega Menu -->
-                    <div class="nav-dropdown mega-dropdown">
-                        <a href="{{ route('categories') }}" class="nav-link {{ request()->routeIs('categories') ? 'active' : '' }}">
-                            Categories
-                            <svg class="dropdown-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3.5L5 6.5L8 3.5"/>
-                            </svg>
-                        </a>
-                        <div class="dropdown-menu mega-menu">
-                            @if(isset($topCategories) && $topCategories->count() > 0)
-                                <div class="mega-menu-content">
-                                    @foreach($topCategories as $category)
-                                        <div class="mega-menu-column">
-                                            <a href="{{ route('category', $category->seo_url) }}" class="mega-menu-title">{{ $category->category_name }}</a>
-                                            @php
-                                                $categoryStores = $category->stores()->where('status', 1)->take(5)->get();
-                                            @endphp
-                                            @if($categoryStores->count() > 0)
-                                                @foreach($categoryStores as $store)
-                                                    <a href="{{ route('store', $store->seo_url) }}">{{ $store->store_name }}</a>
-                                                @endforeach
-                                            @endif
-                                            <a href="{{ route('category', $category->seo_url) }}" class="more-link">More Brands</a>
+                        <!-- Categories Compact Menu -->
+                        <div class="cat-menu" id="catMenu">
+                            <button type="button"
+                                    class="nav-link cat-menu-trigger {{ request()->routeIs('categories') || request()->routeIs('category') ? 'active' : '' }}"
+                                    id="catMenuTrigger"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    aria-controls="catMenuPanel">
+                                Categories
+                                <svg class="dropdown-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 3.5L5 6.5L8 3.5"/>
+                                </svg>
+                            </button>
+                            <div class="cat-menu-panel" id="catMenuPanel" aria-label="Browse categories">
+                                <div class="cat-menu-list">
+                                    <a href="{{ route('categories') }}" class="cat-menu-item is-active" data-cat-target="popular">Popular</a>
+                                    @foreach($navCategoryMenu['categories'] ?? [] as $category)
+                                        <a href="{{ route('category', $category->seo_url) }}" class="cat-menu-item" data-cat-target="cat-{{ $category->id }}">{{ $category->category_name }}</a>
+                                    @endforeach
+                                </div>
+                                <div class="cat-menu-divider" aria-hidden="true"></div>
+                                <div class="cat-menu-stores">
+                                    <div class="cat-menu-store-panel is-active" data-cat-panel="popular">
+                                        @forelse($navCategoryMenu['popular'] ?? [] as $store)
+                                            <a href="{{ route('store', $store->seo_url) }}">{{ $store->short_name }}</a>
+                                        @empty
+                                            <p class="cat-menu-empty">No stores available</p>
+                                        @endforelse
+                                        <a href="{{ route('categories') }}" class="cat-menu-all">All Stores</a>
+                                    </div>
+                                    @foreach($navCategoryMenu['categories'] ?? [] as $category)
+                                        <div class="cat-menu-store-panel" data-cat-panel="cat-{{ $category->id }}">
+                                            @forelse($category->stores as $store)
+                                                <a href="{{ route('store', $store->seo_url) }}">{{ $store->short_name }}</a>
+                                            @empty
+                                                <p class="cat-menu-empty">No stores available</p>
+                                            @endforelse
+                                            <a href="{{ route('categories') }}" class="cat-menu-all">All Stores</a>
                                         </div>
                                     @endforeach
                                 </div>
-                            @endif
+                            </div>
                         </div>
-                    </div>
                     <!-- <a href="{{ route('about-us') }}" class="nav-link {{ request()->routeIs('about-us') ? 'active' : '' }}">About Us</a> -->
                     <a href="{{ route('blog') }}" class="nav-link {{ request()->routeIs('blog') ? 'active' : '' }}">Blog</a>
                     <a href="{{ route('events') }}" class="nav-link {{ request()->routeIs('events') ? 'active' : '' }}">Events</a>
@@ -2036,6 +2096,314 @@
         text-decoration: none;
     }
 }
+
+/* Compact Categories Menu */
+.cat-menu {
+    position: relative;
+}
+
+.cat-menu-trigger {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font: inherit;
+    cursor: pointer;
+    font-weight:600;
+}
+
+.cat-menu-trigger.is-open {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.cat-menu-trigger .dropdown-icon {
+    transition: transform 0.25s ease;
+}
+
+.cat-menu-trigger[aria-expanded="true"] .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.cat-menu-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    width: 440px;
+    max-width: calc(100vw - 40px);
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: stretch;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    padding: 14px;
+}
+
+.cat-menu-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cat-menu-list {
+    flex: 0 0 168px;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.cat-menu-item {
+    display: block;
+    position: relative;
+    padding: 9px 16px 9px 10px;
+    color: #1f2937;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.3;
+    border-radius: 8px;
+}
+
+.cat-menu-item:hover,
+.cat-menu-item:focus-visible {
+    background: #f8f9fc;
+    color: var(--primary-color);
+}
+
+.cat-menu-item.is-active {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.cat-menu-item.is-active::after {
+    content: '';
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.cat-menu-divider {
+    flex: 0 0 1px;
+    align-self: stretch;
+    background: #e5e7eb;
+    margin: 0 14px;
+}
+
+.cat-menu-stores {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.cat-menu-store-panel {
+    display: none;
+    flex-direction: column;
+}
+
+.cat-menu-store-panel.is-active {
+    display: flex;
+}
+
+.cat-menu-store-panel a {
+    display: block;
+    padding: 8px 10px;
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.875rem;
+    border-radius: 8px;
+}
+
+.cat-menu-store-panel a:hover,
+.cat-menu-store-panel a:focus-visible {
+    background: #f8f9fc;
+    color: var(--primary-color);
+}
+
+.cat-menu-empty {
+    padding: 8px 10px;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.cat-menu-all {
+    margin-top: 6px;
+    padding-top: 10px !important;
+    border-top: 1px solid #f1f5f9;
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+}
+
+.cat-menu-trigger:focus-visible,
+.cat-menu-item:focus-visible,
+.cat-menu-store-panel a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .cat-menu-panel {
+        display: none !important;
+    }
+}
+
+/* Trending: same compact popover component, single column (no category list/divider) */
+.trend-menu-panel {
+    display: block;
+    width: 280px;
+}
+
+/* Mobile Categories Accordion (inside .sidenv) */
+.sn-cat-trigger {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 20px;
+    color: #000;
+    background: #ffffff;
+    border: none;
+    border-bottom: 1px solid #f3f4f6;
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.sn-cat-trigger:hover,
+.sn-cat-trigger:focus-visible {
+    color: var(--primary-color);
+    background: #f8f9fa;
+}
+
+.sn-cat-trigger .sn-cat-chevron {
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.sn-cat-trigger[aria-expanded="true"] .sn-cat-chevron {
+    transform: rotate(180deg);
+}
+
+.sn-cat-list {
+    display: none;
+    flex-direction: column;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.sn-cat-list.is-open {
+    display: flex;
+}
+
+.sn-cat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 20px 10px 32px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: #1f2937;
+    background: #fbfbfc;
+    border: none;
+    border-bottom: 1px solid #f3f4f6;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sn-cat-row:hover,
+.sn-cat-row:focus-visible {
+    color: var(--primary-color);
+    background: #f8f9fa;
+}
+
+.sn-cat-view-all {
+    display: block;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 8px 20px 8px 32px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: var(--primary-color) !important;
+    background: #ffffff;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.sn-store-panel {
+    display: none;
+    flex-direction: column;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.sn-store-panel.is-open {
+    display: flex;
+}
+
+.sn-store-back {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 20px !important;
+    font-weight: 700 !important;
+    background: #ffffff;
+    border: none;
+    border-bottom: 1px solid #f3f4f6;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+}
+
+.sn-store-back:hover,
+.sn-store-back:focus-visible {
+    background: #f8f9fa;
+}
+
+.sn-store-panel > a {
+    min-height: 44px;
+    display: flex !important;
+    align-items: center;
+    padding: 10px 20px 10px 32px !important;
+    font-size: 0.9rem !important;
+    color: #1f2937;
+    background: #ffffff;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.sn-store-panel > a:hover,
+.sn-store-panel > a:focus-visible {
+    color: var(--primary-color);
+    background: #f8f9fa;
+}
+
+.sn-store-empty {
+    padding: 10px 20px 10px 32px;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    margin: 0;
+    background: #ffffff;
+}
   </style>
 
   <script>
@@ -2655,4 +3023,172 @@
           }
       }
   }
+
+  // ---- Compact Dropdown Menus (desktop) — shared by Trending and Categories ----
+  (function () {
+      function initCompactDropdown(wrapId, triggerId, panelId) {
+          const wrap = document.getElementById(wrapId);
+          const trigger = document.getElementById(triggerId);
+          const panel = document.getElementById(panelId);
+          if (!wrap || !trigger || !panel) return;
+
+          // Only Categories has these (left category list / right store panels per category);
+          // Trending's panel is a single flat list, so both arrays are simply empty for it
+          // and the category-switching/arrow-key logic below becomes a no-op.
+          const items = Array.from(panel.querySelectorAll('.cat-menu-item'));
+          const storePanels = Array.from(panel.querySelectorAll('.cat-menu-store-panel'));
+          let closeTimer = null;
+          let openTimer = null;
+
+          function selectCategory(target) {
+              items.forEach((item) => item.classList.toggle('is-active', item.dataset.catTarget === target));
+              storePanels.forEach((sp) => sp.classList.toggle('is-active', sp.dataset.catPanel === target));
+          }
+
+          function openMenu() {
+              clearTimeout(closeTimer);
+              clearTimeout(openTimer);
+              panel.classList.add('is-open');
+              trigger.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
+          }
+
+          function closeMenu(focusTrigger) {
+              clearTimeout(closeTimer);
+              clearTimeout(openTimer);
+              panel.classList.remove('is-open');
+              trigger.classList.remove('is-open');
+              trigger.setAttribute('aria-expanded', 'false');
+              if (focusTrigger) trigger.focus();
+          }
+
+          function scheduleClose() {
+              clearTimeout(closeTimer);
+              closeTimer = setTimeout(() => closeMenu(false), 300);
+          }
+
+          function scheduleOpen() {
+              clearTimeout(openTimer);
+              openTimer = setTimeout(openMenu, 120);
+          }
+
+          trigger.addEventListener('click', function (e) {
+              e.preventDefault();
+              if (panel.classList.contains('is-open')) {
+                  closeMenu(false);
+              } else {
+                  openMenu();
+              }
+          });
+
+          wrap.addEventListener('mouseenter', scheduleOpen);
+          wrap.addEventListener('mouseleave', scheduleClose);
+
+          // Note: intentionally NOT opening on focusin. A real click (and Enter/Space on the
+          // button) fires focus *before* the click event, so an immediate open-on-focus would
+          // race with the click handler's open/close toggle above and immediately undo it.
+          // Tab reaching the trigger is enough; Enter/Space (native button click) opens it.
+          wrap.addEventListener('focusout', function (e) {
+              if (!wrap.contains(e.relatedTarget)) {
+                  scheduleClose();
+              }
+          });
+
+          items.forEach((item) => {
+              item.addEventListener('mouseenter', () => selectCategory(item.dataset.catTarget));
+              item.addEventListener('focus', () => selectCategory(item.dataset.catTarget));
+          });
+
+          if (items.length) {
+              panel.addEventListener('keydown', function (e) {
+                  const currentIndex = items.indexOf(document.activeElement);
+                  if (e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      (items[currentIndex + 1] || items[0]).focus();
+                  } else if (e.key === 'ArrowUp') {
+                      e.preventDefault();
+                      (items[currentIndex - 1] || items[items.length - 1]).focus();
+                  } else if (e.key === 'Home') {
+                      e.preventDefault();
+                      items[0].focus();
+                  } else if (e.key === 'End') {
+                      e.preventDefault();
+                      items[items.length - 1].focus();
+                  }
+              });
+          }
+
+          document.addEventListener('keydown', function (e) {
+              if (e.key === 'Escape' && panel.classList.contains('is-open')) {
+                  closeMenu(true);
+              }
+          });
+
+          document.addEventListener('click', function (e) {
+              if (panel.classList.contains('is-open') && !wrap.contains(e.target)) {
+                  closeMenu(false);
+              }
+          });
+      }
+
+      initCompactDropdown('trendMenu', 'trendMenuTrigger', 'trendMenuPanel');
+      initCompactDropdown('catMenu', 'catMenuTrigger', 'catMenuPanel');
+  })();
+
+  // ---- Categories Accordion (mobile sidenav) ----
+  (function () {
+      const catWrap = document.getElementById('snCat');
+      const catTrigger = document.getElementById('snCatTrigger');
+      const catList = document.getElementById('snCatList');
+      if (!catWrap || !catTrigger || !catList) return;
+
+      const rows = Array.from(catWrap.querySelectorAll('.sn-cat-row'));
+      const storePanels = Array.from(catWrap.querySelectorAll('.sn-store-panel'));
+
+      function resetToList() {
+          storePanels.forEach((sp) => sp.classList.remove('is-open'));
+          catList.classList.remove('is-open');
+          catTrigger.setAttribute('aria-expanded', 'false');
+      }
+
+      catTrigger.addEventListener('click', function () {
+          const isOpen = catList.classList.contains('is-open');
+          if (isOpen) {
+              resetToList();
+          } else {
+              storePanels.forEach((sp) => sp.classList.remove('is-open'));
+              catList.classList.add('is-open');
+              catTrigger.setAttribute('aria-expanded', 'true');
+          }
+      });
+
+      rows.forEach((row) => {
+          row.addEventListener('click', function () {
+              const target = row.getAttribute('data-sn-cat');
+              catList.classList.remove('is-open');
+              storePanels.forEach((sp) => {
+                  sp.classList.toggle('is-open', sp.getAttribute('data-sn-store-panel') === target);
+              });
+          });
+      });
+
+      catWrap.querySelectorAll('[data-sn-back]').forEach((backBtn) => {
+          backBtn.addEventListener('click', function () {
+              storePanels.forEach((sp) => sp.classList.remove('is-open'));
+              catList.classList.add('is-open');
+          });
+      });
+
+      // Start fresh (category list, not a leftover store panel) whenever the mobile drawer is opened.
+      // This listener is registered after the drawer's own open/close handler, so by the time it
+      // runs, body.menu-open already reflects the *new* state (present = we just opened).
+      const mobileMenuBtnEl = document.getElementById('mobileMenuBtn');
+      if (mobileMenuBtnEl) {
+          mobileMenuBtnEl.addEventListener('click', function () {
+              if (document.body.classList.contains('menu-open')) {
+                  resetToList();
+              }
+          });
+      }
+  })();
   </script>

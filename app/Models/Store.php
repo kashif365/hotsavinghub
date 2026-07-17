@@ -41,6 +41,39 @@ class Store extends Model
     'faqs',
     ];
 
+    /**
+     * store_name is stored SEO-stuffed (e.g. "Barnes & Nobles Coupon & Discount Codes")
+     * for use in page titles/meta tags. This strips the known trailing suffix for
+     * contexts that just want the plain brand name (cards, badges, etc.).
+     */
+    public function getShortNameAttribute(): string
+    {
+        $name = trim((string) $this->store_name);
+
+        $suffixes = [
+            'coupons with promo codes',
+            'coupon & discount codes',
+            'coupon and discount codes',
+            'coupon & discount code',
+            'coupon & discount',
+            'coupon codes',
+            'coupon code',
+            'promo codes',
+            'coupons',
+            'coupon',
+        ];
+
+        foreach ($suffixes as $suffix) {
+            $pattern = '/\s*[-:|]?\s*'.preg_quote($suffix, '/').'\s*$/i';
+            if (preg_match($pattern, $name)) {
+                $name = trim(preg_replace($pattern, '', $name));
+                break;
+            }
+        }
+
+        return $name !== '' ? $name : trim((string) $this->store_name);
+    }
+
     // Relations
         public function categories()
         {

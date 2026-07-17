@@ -8,6 +8,14 @@ class Slider extends Model
 {
     protected $fillable = [
         'background_image',
+        'label',
+        'heading',
+        'subtitle',
+        'cta_text',
+        'cta_url',
+        'secondary_image',
+        'logo',
+        'badge_color',
         'sort_order',
         'status',
     ];

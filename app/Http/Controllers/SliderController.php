@@ -19,6 +19,7 @@ class SliderController extends Controller
     public function index()
     {
         $sliders = Slider::orderBy('sort_order')->get();
+
         return view('admin.sliders.index', compact('sliders'));
     }
 
@@ -29,23 +30,18 @@ class SliderController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate($this->contentValidationRules() + [
             'background_image' => 'nullable|image|max:2048|required_without:background_image_path',
             'background_image_path' => 'nullable|string|required_without:background_image',
         ]);
 
-        $data = [
-            'status' => $request->boolean('status', true),
-        ];
+        $data = $request->only(['label', 'heading', 'subtitle', 'cta_text', 'cta_url', 'badge_color']);
+        $data['status'] = $request->boolean('status', true);
 
-        if ($request->hasFile('background_image')) {
-            $data['background_image'] = $this->imageService->uploadAndConvert(
-                $request->file('background_image'),
-                'uploads',
-                ['quality' => 100, 'preserve_original' => true]
-            );
-        } elseif ($request->filled('background_image_path')) {
-            $data['background_image'] = $request->input('background_image_path');
+        foreach ($this->imageFieldMap() as $fileField => $pathField) {
+            if ($path = $this->resolveImagePath($request, $fileField, $pathField)) {
+                $data[$fileField] = $path;
+            }
         }
 
         $last = Slider::max('sort_order') ?? 0;
@@ -63,27 +59,20 @@ class SliderController extends Controller
 
     public function update(Request $request, Slider $slider)
     {
-        $request->validate([
+        $request->validate($this->contentValidationRules() + [
             'background_image' => 'nullable|image|max:2048',
             'background_image_path' => 'nullable|string',
         ]);
 
-        $updateData = [
-            'status' => $request->boolean('status'),
-        ];
+        $updateData = $request->only(['label', 'heading', 'subtitle', 'cta_text', 'cta_url', 'badge_color']);
+        $updateData['status'] = $request->boolean('status');
 
-        if ($request->hasFile('background_image')) {
-            if ($slider->background_image && File::exists(public_path($slider->background_image))) {
-                File::delete(public_path($slider->background_image));
+        foreach ($this->imageFieldMap() as $fileField => $pathField) {
+            $newPath = $this->resolveImagePath($request, $fileField, $pathField);
+            if ($newPath) {
+                $this->deleteImageFile($slider->{$fileField});
+                $updateData[$fileField] = $newPath;
             }
-
-            $updateData['background_image'] = $this->imageService->uploadAndConvert(
-                $request->file('background_image'),
-                'uploads',
-                ['quality' => 100, 'preserve_original' => true]
-            );
-        } elseif ($request->filled('background_image_path')) {
-            $updateData['background_image'] = $request->input('background_image_path');
         }
 
         $slider->update($updateData);
@@ -93,8 +82,8 @@ class SliderController extends Controller
 
     public function destroy(Slider $slider)
     {
-        if ($slider->background_image && File::exists(public_path($slider->background_image))) {
-            File::delete(public_path($slider->background_image));
+        foreach (array_keys($this->imageFieldMap()) as $fileField) {
+            $this->deleteImageFile($slider->{$fileField});
         }
 
         $slider->delete();
@@ -106,15 +95,15 @@ class SliderController extends Controller
     {
         $ids = $request->ids;
 
-        if (!$ids || count($ids) === 0) {
+        if (! $ids || count($ids) === 0) {
             return back()->with('error', 'No sliders selected.');
         }
 
         $sliders = Slider::whereIn('id', $ids)->get();
 
         foreach ($sliders as $slider) {
-            if ($slider->background_image && File::exists(public_path($slider->background_image))) {
-                File::delete(public_path($slider->background_image));
+            foreach (array_keys($this->imageFieldMap()) as $fileField) {
+                $this->deleteImageFile($slider->{$fileField});
             }
             $slider->delete();
         }
@@ -141,5 +130,57 @@ class SliderController extends Controller
         $slider->update(['status' => $request->status]);
 
         return response()->json(['success' => true, 'message' => 'Slider status updated successfully.']);
+    }
+
+    /**
+     * Maps each image column to the hidden "*_path" input used by the media library picker.
+     */
+    private function imageFieldMap(): array
+    {
+        return [
+            'background_image' => 'background_image_path',
+            'secondary_image' => 'secondary_image_path',
+            'logo' => 'logo_path',
+        ];
+    }
+
+    private function contentValidationRules(): array
+    {
+        return [
+            'secondary_image' => 'nullable|image|max:2048',
+            'secondary_image_path' => 'nullable|string',
+            'logo' => 'nullable|image|max:2048',
+            'logo_path' => 'nullable|string',
+            'label' => 'nullable|string|max:255',
+            'heading' => 'nullable|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'cta_text' => 'nullable|string|max:255',
+            'cta_url' => 'nullable|string|max:2048',
+            'badge_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+        ];
+    }
+
+    private function resolveImagePath(Request $request, string $fileField, string $pathField): ?string
+    {
+        if ($request->hasFile($fileField)) {
+            return $this->imageService->uploadAndConvert(
+                $request->file($fileField),
+                'uploads',
+                ['quality' => 100, 'preserve_original' => true]
+            );
+        }
+
+        if ($request->filled($pathField)) {
+            return $request->input($pathField);
+        }
+
+        return null;
+    }
+
+    private function deleteImageFile(?string $path): void
+    {
+        if ($path && File::exists(public_path($path))) {
+            File::delete(public_path($path));
+        }
     }
 }

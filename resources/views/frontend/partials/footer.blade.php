@@ -31,9 +31,9 @@
     }
     .disclosure p strong{
         /* Use dark color for better readability on light footer background */
-        color: #000000 !important;
+        color: #ffffff !important;
         font-weight: 700;
-      }
+      } 
     /* When events-col is not present (4 columns), adjust widths to 25% */
     .row:not(:has(.events-col)) .logo-col,
     .row:not(:has(.events-col)) .quick-links-col,
@@ -292,6 +292,7 @@
 .social-links {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.5rem;
 }
 .social-links svg{
     width: 18px;
@@ -475,9 +476,9 @@ footer .row{
         color: #000 !important;
     font-size: 14px !important;
     min-width: 30px;
-    height: auto !important;
+    /* height: auto !important; */
     display: inline-flex;
-    justify-content: start;
+    /* justify-content: start; */
     }
     .footer-bottom .container .row{
         display: flex;

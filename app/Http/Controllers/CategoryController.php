@@ -7,6 +7,7 @@ use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -67,6 +68,8 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
+        Cache::forget('nav_category_menu_v1');
+
         return redirect()->route('admin.categories.index')->with('success', 'Category created.');
     }
 
@@ -119,6 +122,8 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
+        Cache::forget('nav_category_menu_v1');
+
         return redirect()->route('admin.categories.index')->with('success', 'Category updated.');
     }
 
@@ -131,6 +136,8 @@ public function destroy($id)
     }
 
     $category->delete();
+
+    Cache::forget('nav_category_menu_v1');
 
     return back()->with('success', 'Category deleted successfully.');
 }
@@ -154,6 +161,8 @@ public function bulkDelete(Request $request)
         $category->delete();
     }
 
+    Cache::forget('nav_category_menu_v1');
+
     return back()->with('success', 'Selected categories deleted successfully.');
 }
 
@@ -176,6 +185,8 @@ public function bulkDelete(Request $request)
             Category::where('id', $item['id'])->update(['sort_order' => $item['sort_order']]);
         }
 
+        Cache::forget('nav_category_menu_v1');
+
         return response()->json(['status' => 'success']);
     }
 
@@ -186,6 +197,8 @@ public function bulkDelete(Request $request)
         ]);
 
         $category->update(['status' => $request->status]);
+
+        Cache::forget('nav_category_menu_v1');
 
         $statusText = $request->status ? 'activated' : 'deactivated';
         return redirect()->route('admin.categories.index')->with('success', "Category {$statusText} successfully!");

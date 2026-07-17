@@ -30,6 +30,7 @@
                         <th width="30">☰</th>
                         <th>SL</th>
                         <th>Image</th>
+                        <th>Heading</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -47,6 +48,13 @@
                                 <img src="{{ asset($slider->background_image) }}" alt="Slider Image" style="width: 100px; height: 60px; object-fit: cover; border-radius: 4px;">
                             @else
                                 <span class="text-muted">No Image</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($slider->heading)
+                                {{ $slider->heading }}
+                            @else
+                                <span class="text-muted fst-italic">Simple image slide</span>
                             @endif
                         </td>
                         <td>

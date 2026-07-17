@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 class StoreController extends Controller
 {
@@ -134,6 +135,8 @@ public function create()
         $store->categories()->sync($request->categories ?? []);
         $store->events()->sync($request->events ?? []);
 
+        Cache::forget('nav_category_menu_v1');
+
         return redirect()->route('admin.stores.index')->with('success', 'Store created successfully!');
     }
 
@@ -226,6 +229,8 @@ public function edit(Store $store)
         $store->categories()->sync($request->categories ?? []);
         $store->events()->sync($request->events ?? []);
 
+        Cache::forget('nav_category_menu_v1');
+
         return redirect()->route('admin.stores.index')->with('success', 'Store updated successfully!');
     }
 
@@ -242,7 +247,9 @@ public function edit(Store $store)
         ]);
 
         $store->update(['status' => $request->status]);
-        
+
+        Cache::forget('nav_category_menu_v1');
+
         $statusText = $request->status ? 'activated' : 'deactivated';
         return redirect()->route('admin.stores.index')->with('success', "Store {$statusText} successfully!");
     }
@@ -259,6 +266,8 @@ public function edit(Store $store)
         $store->categories()->detach();
         $store->events()->detach();
         $store->delete();
+
+        Cache::forget('nav_category_menu_v1');
 
         return redirect()->route('admin.stores.index')->with('success', 'Store deleted successfully!');
     }
@@ -286,6 +295,8 @@ public function edit(Store $store)
             $store->delete();
         }
 
+        Cache::forget('nav_category_menu_v1');
+
         return back()->with('success', 'Selected stores deleted successfully.');
     }
 
@@ -301,6 +312,8 @@ public function edit(Store $store)
         foreach ($request->order as $item) {
             Store::where('id', $item['id'])->update(['sort_order' => $item['sort_order']]);
         }
+
+        Cache::forget('nav_category_menu_v1');
 
         return response()->json(['status' => 'success']);
     }
