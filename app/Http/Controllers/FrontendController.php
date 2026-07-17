@@ -125,10 +125,12 @@ class FrontendController extends Controller
                 }
             }
             
-            // Attach coupons to categories - 8 for desktop, CSS will hide 2 on mobile
+            // Attach coupons to categories - one card per unique store (its best deal, since the
+            // query above is already ordered featured desc/sort_order asc), 8 for desktop, CSS
+            // will hide 2 on mobile
             $homeCategories = $homeCategories->map(function($category) use ($couponsByCategory) {
-                $category->coupons = isset($couponsByCategory[$category->id]) 
-                    ? $couponsByCategory[$category->id]->take(8) 
+                $category->coupons = isset($couponsByCategory[$category->id])
+                    ? $couponsByCategory[$category->id]->unique('brand_store')->take(8)->values()
                     : collect();
                 return $category;
             });

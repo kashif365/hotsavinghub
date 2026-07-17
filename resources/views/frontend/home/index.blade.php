@@ -283,6 +283,11 @@
                         </div>
                     </div>
                 </div>
+            {{-- Swiper is used by both this hero carousel and the Featured Brands carousel further
+                 down the page — load it unconditionally so deactivating all hero sliders (which
+                 skips the block below) doesn't also break the Featured Brands carousel. --}}
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js"></script>
             @if($sliders && $sliders->count() > 0)
             <section class="hsc-hero">
                 <h1 class="hsc-sr-only">{{ $brandingSettings['site_name'] ?? 'Hotsavinghub' }} - Discount Codes & Voucher Codes</h1>
@@ -351,7 +356,6 @@
                 </div>
             </section>
 
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
             <style>
                 .hsc-sr-only {
                     position: absolute;
@@ -643,7 +647,6 @@
                 }
             </style>
 
-            <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js"></script>
             <script>
                 (function () {
                     function initHeroCarousel() {
@@ -1995,7 +1998,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="hh-bento-grid">
                 @forelse($category->coupons ?? [] as $dealIndex => $coupon)
                     @php
-                        $storeName = strtoupper($coupon->store->store_name ?? $coupon->brand_store ?? 'STORE');
+                        $storeName = strtoupper($coupon->store->short_name ?? $coupon->brand_store ?? 'STORE');
                         $bgColors = ['#2951c4', '#0f172a', '#6366f1', '#4338ca', '#1e293b'];
                         $accentBg = $bgColors[$dealIndex % count($bgColors)];
                     @endphp
