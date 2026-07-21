@@ -8,52 +8,36 @@
     $socialSettings = \App\Helpers\SettingsHelper::getSocial();
 @endphp
 <style>
-    /* Default widths when events-col is present (5 columns) */
-    .logo-col{
-        width: 20%;
-        padding-right: 20px;
+    /* Footer column grid: 5 columns when the Events column is present, 4 otherwise */
+    .footer-main .row {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr 1fr 1.15fr;
+        gap: 0 32px;
+        align-items: start;
     }
-    .quick-links-col{
-        width: 20%;
-        padding-left: 20px;
+    .footer-main .row:not(:has(.events-col)) {
+        grid-template-columns: 1.3fr 1fr 1fr 1.15fr;
     }
-    .events-col{
-        width: 20%;
-        padding-left: 20px;
-    }
-    .company-info-col{
-        width: 20%;
-        padding-left: 20px;
-    }
-    .newsletter-col{
-        width: 20%;
-        padding-left: 20px;
+    .logo-col, .quick-links-col, .events-col, .company-info-col, .newsletter-col {
+        width: auto;
+        padding: 0;
     }
     .disclosure p strong{
         /* Use dark color for better readability on light footer background */
         color: #ffffff !important;
         font-weight: 700;
-      } 
-    /* When events-col is not present (4 columns), adjust widths to 25% */
-    .row:not(:has(.events-col)) .logo-col,
-    .row:not(:has(.events-col)) .quick-links-col,
-    .row:not(:has(.events-col)) .company-info-col,
-    .row:not(:has(.events-col)) .newsletter-col {
-        width: 25%;
-    }
+      }
     @media (max-width: 768px) {
+        .footer-main .row {
+            grid-template-columns: repeat(2, 1fr);
+            row-gap: 28px;
+        }
         .logo-col{
-            width: 100% !important;
+            grid-column: 1 / -1;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 40px;
-        }
-        .quick-links-col{
-            width: 50% !important;
-        }
-        .company-info-col{
-            width: 50% !important;
+            margin-bottom: 8px;
         }
         .footer-brand{
             max-width: 100% !important;
@@ -74,16 +58,12 @@
       .copyright p{
         font-size: 12px !important;
       }
-      .events-col{
-        width: 50%;
-    }
-    
-    /* Hide company-info-col on mobile when events-col is present */
+
+    /* Hide company-info-col on mobile when events-col is present, to keep 2 columns balanced */
     .row:has(.events-col) .company-info-col {
         display: none !important;
     }
     .row:not(:has(.events-col)) .company-info-col {
-        width: 50% !important;
         display: block !important;
     }
     }
@@ -318,7 +298,12 @@
     transform: translateY(-2px);
     /* Dark color on hover for consistency */
     color: var(--primary-color, #2951c4) !important;
-    background: rgba(220, 38, 38, 0.1);
+    background: rgba(var(--primary-color-rgb, 41, 81, 196), 0.1);
+}
+
+.social-link:focus-visible {
+    outline: 3px solid var(--primary-color, #2951c4);
+    outline-offset: 2px;
 }
 
 /* .social-link.facebook:hover { background: var(--primary-color, #2951c4); }
@@ -435,8 +420,14 @@
 }
 
 .newsletter-btn:hover {
-    background: var(--secondary-color, #ff5252);
+    filter: brightness(1.1);
     transform: scale(1.05);
+}
+
+.newsletter-btn:focus-visible,
+.newsletter-input-group input:focus-visible {
+    outline: 3px solid var(--primary-color, #2951c4);
+    outline-offset: 2px;
 }
 
 .footer-bottom {

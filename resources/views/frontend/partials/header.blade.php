@@ -150,51 +150,6 @@
     $accessiblePrimary = sprintf('#%02X%02X%02X', $adjR, $adjG, $adjB);
 @endphp
 <header class="header-modern">
-    <!-- Top Promotional Bar -->
-    <div class="top-promo-bar" style="background: {{ $accessiblePrimary }} !important;">
-        <div class="promo-container">
-            <div class="promo-left">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <span>Find a Store</span>
-            </div>
-            <div class="promo-center">
-                <span>Get 35% Off with Code FG6556KD</span>
-            </div>
-            <div class="promo-right">
-                <a href="#" class="promo-icon" title="Menu">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="14" width="7" height="7"></rect>
-                        <rect x="3" y="14" width="7" height="7"></rect>
-                    </svg>
-                </a>
-                <a href="#" class="promo-icon" title="Chat">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                </a>
-                <a href="#" class="promo-icon" title="Instagram">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                </a>
-                <a href="#" class="promo-icon" title="Shopping">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
-
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
@@ -391,11 +346,11 @@
                             </svg>
                         </a>
                     @else
-                        <a href="{{ route('customer.login') }}" title="Login" style="background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 5px;">
+                        <a href="{{ route('customer.login') }}" title="Login" class="hdr-auth-btn hdr-auth-btn--outline">
                             Login
                         </a>
                     @endif
-                    <a href="{{ route('customer.register') }}" title="Register" style="background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 5px;">
+                    <a href="{{ route('customer.register') }}" title="Register" class="hdr-auth-btn hdr-auth-btn--primary">
                         Register
                     </a>
                 </div>
@@ -748,6 +703,49 @@
         color: #1e293b;
     }
 
+    .user-icon:focus-visible,
+    .login-icon:focus-visible,
+    .register-icon:focus-visible,
+    .hdr-auth-btn:focus-visible {
+        outline: 3px solid var(--primary-color, #2951c4);
+        outline-offset: 2px;
+    }
+
+    .hdr-auth-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        border: 1.5px solid transparent;
+        white-space: nowrap;
+    }
+
+    .hdr-auth-btn--primary {
+        background: var(--primary-color);
+        color: #fff;
+    }
+
+    .hdr-auth-btn--primary:hover {
+        filter: brightness(1.08);
+        transform: translateY(-1px);
+    }
+
+    .hdr-auth-btn--outline {
+        background: transparent;
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .hdr-auth-btn--outline:hover {
+        background: var(--primary-color);
+        color: #fff;
+    }
+
     /* Navigation Bar */
     .nav-bar {
         background: #fff;
@@ -802,6 +800,12 @@
         /* Active link: white text (21:1 contrast on black) with primary-colored underline */
         color: var(--primary-color);
         border-bottom-color: var(--primary-color);
+    }
+
+    .nav-link:focus-visible {
+        outline: 3px solid var(--primary-color, #2951c4);
+        outline-offset: 2px;
+        border-radius: 4px;
     }
 
     /* Ensure nav dropdown stays open when hovering */
@@ -2133,7 +2137,7 @@
     max-width: calc(100vw - 40px);
     background: #fff;
     border: 1px solid #e5e7eb;
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
     z-index: 1000;
     display: flex;

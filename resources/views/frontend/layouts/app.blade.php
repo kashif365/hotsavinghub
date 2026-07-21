@@ -25,6 +25,7 @@
         $brandVersion = $getFileVersion('frontend_assets/css/brand.css');
         $responsiveVersion = $getFileVersion('frontend_assets/css/responsive-home.css');
         $mobileVersion = $getFileVersion('frontend_assets/css/mobile-optimizations.css');
+        $redesignVersion = $getFileVersion('frontend_assets/css/home-redesign.css');
     @endphp
 
     {{-- Load all CSS files normally --}}
@@ -34,6 +35,8 @@
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/brand.css') }}?v={{ $brandVersion }}">
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/responsive-home.css') }}?v={{ $responsiveVersion }}">
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/mobile-optimizations.css') }}?v={{ $mobileVersion }}">
+    {{-- Shared homepage design-system tokens/primitives (redesign) --}}
+    <link rel="stylesheet" href="{{ asset('frontend_assets/css/home-redesign.css') }}?v={{ $redesignVersion }}">
 
     {{-- Font Awesome 6.5.1 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
