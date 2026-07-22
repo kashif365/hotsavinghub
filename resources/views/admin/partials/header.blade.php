@@ -161,6 +161,46 @@
         </ul>
     </li>
 
+    {{-- Spotlight Cards --}}
+    <li class="menu-item {{ request()->is('admin/spotlight-cards', 'admin/spotlight-cards/*') ? 'active open' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons ri-layout-grid-line"></i>
+            <div>Spotlight Cards</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item {{ request()->is('admin/spotlight-cards/create') ? 'active' : '' }}">
+                <a href="{{ route('admin.spotlight-cards.create') }}" class="menu-link">
+                    <div>Add Spotlight Card</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->is('admin/spotlight-cards') && !request()->is('admin/spotlight-cards/create') ? 'active' : '' }}">
+                <a href="{{ route('admin.spotlight-cards.index') }}" class="menu-link">
+                    <div>View Spotlight Cards</div>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    {{-- Home Content Blocks --}}
+    <li class="menu-item {{ request()->is('admin/home-content-blocks', 'admin/home-content-blocks/*') ? 'active open' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons ri-article-line"></i>
+            <div>Home Content Blocks</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item {{ request()->is('admin/home-content-blocks/create') ? 'active' : '' }}">
+                <a href="{{ route('admin.home-content-blocks.create') }}" class="menu-link">
+                    <div>Add Content Block</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->is('admin/home-content-blocks') && !request()->is('admin/home-content-blocks/create') ? 'active' : '' }}">
+                <a href="{{ route('admin.home-content-blocks.index') }}" class="menu-link">
+                    <div>View Content Blocks</div>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     {{-- Blogs --}}
     <li class="menu-item {{ request()->is('admin/blogs', 'admin/blogs/*', 'admin/blog-categories', 'admin/blog-categories/*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">

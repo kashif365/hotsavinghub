@@ -371,8 +371,6 @@
 
 .empty-deals-state {
     grid-column: 1 / -1;
-    text-align: center;
-    padding: 4rem 1rem;
     color: var(--p-slate);
 }
 

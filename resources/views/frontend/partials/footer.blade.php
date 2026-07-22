@@ -8,17 +8,17 @@
     $socialSettings = \App\Helpers\SettingsHelper::getSocial();
 @endphp
 <style>
-    /* Footer column grid: 5 columns when the Events column is present, 4 otherwise */
+    /* Footer column grid: 6 columns when the Events column is present, 5 otherwise */
     .footer-main .row {
         display: grid;
-        grid-template-columns: 1.3fr 1fr 1fr 1fr 1.15fr;
-        gap: 0 32px;
+        grid-template-columns: 1.15fr 0.9fr 0.85fr 0.85fr 0.85fr 1.05fr;
+        gap: 0 28px;
         align-items: start;
     }
     .footer-main .row:not(:has(.events-col)) {
-        grid-template-columns: 1.3fr 1fr 1fr 1.15fr;
+        grid-template-columns: 1.2fr 0.9fr 0.9fr 0.9fr 1.1fr;
     }
-    .logo-col, .quick-links-col, .events-col, .company-info-col, .newsletter-col {
+    .logo-col, .quick-links-col, .events-col, .company-info-col, .deal-col, .newsletter-col {
         width: auto;
         padding: 0;
     }
@@ -46,6 +46,9 @@
         text-align: center !important;
       }
       .newsletter-col{
+        display: none !important;
+      }
+      .deal-col{
         display: none !important;
       }
       .copyright-col{
@@ -172,6 +175,20 @@
                     </div>
                 </div>
 
+                <!-- Top Stores -->
+                <div class="col-md-4 deal-col">
+                    <div class="footer-section">
+                        <h4 class="footer-title">Deal</h4>
+                        <ul class="footer-links">
+                            @forelse(($trendingStores ?? collect())->take(5) as $store)
+                                <li><a href="{{ route('store', $store->seo_url) }}">{{ $store->short_name ?? $store->store_name }}</a></li>
+                            @empty
+                                <li><span class="footer-links-empty">No stores available</span></li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- Newsletter -->
                 <div class="col-md-4 newsletter-col">
                     <div class="footer-section">
@@ -188,6 +205,19 @@
                             </div>
                         </form>
                         <div id="footerNewsletterMessage" style="margin-top: 10px; display: none;"></div>
+                        <div class="trust-badges">
+                            <div class="trust-badges-grid">
+                                <div class="trust-badge-item">
+                                    <img class="img-fluid" src="{{ asset('frontend_assets/images/trustpiolet.webp') }}" alt="Trustpilot" loading="lazy" width="110" height="34">
+                                </div>
+                                <div class="trust-badge-item">
+                                    <img class="img-fluid" src="{{ asset('frontend_assets/images/google-review.webp') }}" alt="Google Reviews" loading="lazy" width="110" height="34">
+                                </div>
+                                <div class="trust-badge-item">
+                                    <img class="img-fluid" src="{{ asset('frontend_assets/images/bbb-review.webp') }}" alt="BBB Review" loading="lazy" width="60" height="52">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -246,6 +276,12 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
+}
+
+.footer-logo img {
+    width: auto;
+    max-width: 160px;
+    height: auto;
 }
 
 .footer-logo .logo-img {
@@ -359,6 +395,11 @@
     padding-left: 8px;
 }
 
+.footer-links-empty {
+    color: #9ca3af !important;
+    font-size: 0.9rem;
+}
+
 .footer-links a::before {
     content: '→';
     position: absolute;
@@ -424,6 +465,35 @@
     transform: scale(1.05);
 }
 
+.trust-badges {
+    margin-top: 1.25rem;
+}
+
+.trust-badges-grid {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+}
+
+.trust-badge-item {
+    display: flex;
+    align-items: center;
+}
+
+.trust-badge-item img {
+    max-height: 34px;
+    width: auto;
+    display: block;
+    filter: grayscale(1) brightness(0);
+    opacity: 0.85;
+    transition: opacity 0.25s ease;
+}
+
+.trust-badge-item img:hover {
+    opacity: 1;
+}
+
 .newsletter-btn:focus-visible,
 .newsletter-input-group input:focus-visible {
     outline: 3px solid var(--primary-color, #2951c4);
@@ -458,11 +528,11 @@
     color: #ffffff !important;
     font-weight: 700;
 }
-footer .row{
+.footer-bottom .row{
         gap: 0 !important;
         margin-top: 0px !important;
     }
-    footer .row a{
+    .footer-bottom .row a{
         /* WCAG AA compliant: Ensure white text on black background for high contrast */
         color: #000 !important;
     font-size: 14px !important;
@@ -505,7 +575,7 @@ footer .row{
     .footer-logo{
         margin: 0 !important;
     }
-    footer .row{
+    .footer-bottom .row{
         gap: 0 !important;
     }
 }
@@ -514,7 +584,7 @@ footer .row{
     .footer-main {
         padding: 1.5rem 1rem 1rem;
     }
-    footer .row{
+    .footer-bottom .row{
         gap: 0 !important;
     }
     .newsletter-input-group input {

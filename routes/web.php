@@ -132,6 +132,26 @@ Route::middleware(['auth', 'track.visits'])->prefix('admin')->name('admin.')->gr
 
     /*
     |--------------------------------------------------------------------------
+    | Spotlight Cards Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::resource('spotlight-cards', \App\Http\Controllers\SpotlightCardController::class);
+    Route::delete('spotlight-cards', [\App\Http\Controllers\SpotlightCardController::class, 'bulkDelete'])->name('spotlight-cards.bulkDelete');
+    Route::post('spotlight-cards/reorder', [\App\Http\Controllers\SpotlightCardController::class, 'reorder'])->name('spotlight-cards.reorder');
+    Route::patch('spotlight-cards/{spotlight_card}/update-status', [\App\Http\Controllers\SpotlightCardController::class, 'updateStatus'])->name('spotlight-cards.update-status');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Home Content Blocks Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::resource('home-content-blocks', \App\Http\Controllers\HomeContentBlockController::class);
+    Route::delete('home-content-blocks', [\App\Http\Controllers\HomeContentBlockController::class, 'bulkDelete'])->name('home-content-blocks.bulkDelete');
+    Route::post('home-content-blocks/reorder', [\App\Http\Controllers\HomeContentBlockController::class, 'reorder'])->name('home-content-blocks.reorder');
+    Route::patch('home-content-blocks/{home_content_block}/update-status', [\App\Http\Controllers\HomeContentBlockController::class, 'updateStatus'])->name('home-content-blocks.update-status');
+
+    /*
+    |--------------------------------------------------------------------------
     | Blog Routes
     |--------------------------------------------------------------------------
     */

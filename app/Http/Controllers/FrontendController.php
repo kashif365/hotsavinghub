@@ -238,6 +238,24 @@ class FrontendController extends Controller
             $featuredBlogs = collect([]);
         }
 
+        // Load active spotlight cards (promo row shown right after the hero slider)
+        try {
+            $spotlightCards = \App\Models\SpotlightCard::where('status', 1)
+                ->orderBy('sort_order', 'asc')
+                ->get();
+        } catch (\Exception $e) {
+            $spotlightCards = collect([]);
+        }
+
+        // Load active home content blocks (shown right before the footer, home page only)
+        try {
+            $homeContentBlocks = \App\Models\HomeContentBlock::where('status', 1)
+                ->orderBy('sort_order', 'asc')
+                ->get();
+        } catch (\Exception $e) {
+            $homeContentBlocks = collect([]);
+        }
+
         $response = response()->view('frontend.home.index', compact(
             'featuredCoupons',
             'featuredStores', 
@@ -257,7 +275,9 @@ class FrontendController extends Controller
             'secondaryColor',
             'homePage',
             'sliders',
-            'featuredBlogs'
+            'featuredBlogs',
+            'spotlightCards',
+            'homeContentBlocks'
         ));
         
         // Optimize response headers for faster TTFB and better caching

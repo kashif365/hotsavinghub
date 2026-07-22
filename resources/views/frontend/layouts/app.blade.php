@@ -215,7 +215,7 @@
         display: none !important;
     }
 </style>
-<body>
+<body style="max-width: 1700px; margin: auto;">
     @foreach($verificationTags->get('body_start', collect()) as $verificationTag)
         {!! $verificationTag->renderTag() !!}
     @endforeach

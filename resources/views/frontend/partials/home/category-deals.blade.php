@@ -29,7 +29,7 @@
 .hh-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.25rem; font-weight: 900; }
 .hh-card-body { padding: 0 1.35rem 1.35rem; display: flex; flex-direction: column; flex-grow: 1; }
 .hh-store-tag { font-size: 0.7rem; font-weight: 800; color: var(--hh-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-.hh-deal-title { font-size: 1.1rem; font-weight: 700; color: var(--hh-text-dark); line-height: 1.4; margin: 0 0 1.35rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 3.1em; }
+.hh-deal-title { font-size: 1.1rem; font-weight: 700; color: var(--hh-text-dark); line-height: 1.4; margin: 0 0 1.35rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 1.9em; }
 .hh-btn-stack { margin-top: auto; position: relative; }
 .hh-main-btn { width: 100%; padding: 13px; border-radius: 12px; border: none; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: var(--hh-transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
 .hh-main-btn:focus-visible { outline: 3px solid var(--hh-primary); outline-offset: 2px; }
