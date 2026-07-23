@@ -29,6 +29,8 @@
     padding: 32px 40px;
     line-height: 1.8;
     color: #374151;
+    max-height: 80vh; 
+    overflow-y: auto;
 }
 
 .home-extra-content-block + .home-extra-content-block {
