@@ -9,16 +9,56 @@
                 <p>Shopping priorities are different for everyone. Some people are updating their homes, while others are planning a trip, buying software or refreshing their wardrobe. Our broad selection makes relevant promotions easier to discover.</p>
             </div>
             <ul class="hsg-category-grid">
-                <li><span>01</span>Fashion &amp; Accessories</li>
-                <li><span>02</span>Technology &amp; Electronics</li>
-                <li><span>03</span>Home &amp; Garden</li>
-                <li><span>04</span>Travel</li>
-                <li><span>05</span>Beauty</li>
-                <li><span>06</span>Department Stores</li>
-                <li><span>07</span>Software</li>
-                <li><span>08</span>Automotive</li>
-                <li><span>09</span>Kids &amp; Baby</li>
-                <li><span>10</span>Sports &amp; Outdoor</li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l3 3 2-2v9a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-9l2 2 3-3-4-4-3 2h-2z"/></svg></span>
+                    <span class="hsg-cat-name">Fashion &amp; Accessories</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+                    <span class="hsg-cat-name">Technology &amp; Electronics</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg></span>
+                    <span class="hsg-cat-name">Home &amp; Garden</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                    <span class="hsg-cat-name">Travel</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5z"/></svg></span>
+                    <span class="hsg-cat-name">Beauty</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+                    <span class="hsg-cat-name">Department Stores</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+                    <span class="hsg-cat-name">Software</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></span>
+                    <span class="hsg-cat-name">Automotive</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+                    <span class="hsg-cat-name">Kids &amp; Baby</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
+                <li>
+                    <span class="hsg-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+                    <span class="hsg-cat-name">Sports &amp; Outdoor</span>
+                    <svg class="hsg-cat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </li>
             </ul>
         </section>
 
@@ -53,37 +93,6 @@
                 </article>
             </div>
         </section>
-
-        <section class="hsg-trust" aria-labelledby="hsg-trust-title">
-            <div class="hsg-section-heading">
-                <span class="hsg-eyebrow">Clear offers, confident decisions</span>
-                <h2 id="hsg-trust-title">Helping Shoppers Find Reliable Offers</h2>
-                <p>Trust matters when looking for discounts online. Expired promotions and failed coupons are frustrating, so our aim is to organise retailer offers clearly across trusted brands and useful categories—without overwhelming visitors with unnecessary information.</p>
-            </div>
-            <div class="hsg-trust-grid">
-                <article>
-                    <h3>Special Retail Promotions</h3>
-                    <p>Retailers run unique promotions throughout the year. Shoppers may look for a grocery or food-delivery promo code, a Mother's Day discount when buying gifts, or a manufacturer code for a selected collection. Always check eligibility criteria before checkout.</p>
-                </article>
-                <article>
-                    <h3>Activate Offers with Confidence</h3>
-                    <p>Some offers must be activated through newsletters, loyalty memberships or exclusive campaigns. Read the terms carefully and check minimum purchases, expiration dates and product limitations so the discount applies correctly during payment.</p>
-                </article>
-            </div>
-        </section>
-
-        <footer class="hsg-outro">
-            <div>
-                <span class="hsg-eyebrow">Savings made simpler</span>
-                <h2>Your Everyday Destination for Online Savings</h2>
-                <p>Finding good discounts for everyday essentials or premium items should not take hours. Hot Saving Hub brings together organised promotions, trusted retailer offers, useful shopping tips and frequently updated deals to help shoppers make confident decisions.</p>
-                <p>Whether you want a verified promotion or shopping inspiration, we make discounts easier to find throughout the year. Before clicking “Add to cart” or “Add to wish list,” take a moment to see which deals are available.</p>
-            </div>
-            <a href="{{ route('top-discounts') }}" class="hsg-button">
-                Explore current deals
-                <span aria-hidden="true">→</span>
-            </a>
-        </footer>
     </div>
 </section>
 
