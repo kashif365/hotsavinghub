@@ -142,6 +142,16 @@ Route::middleware(['auth', 'track.visits'])->prefix('admin')->name('admin.')->gr
 
     /*
     |--------------------------------------------------------------------------
+    | Cashback Brands Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::resource('cashback-brands', \App\Http\Controllers\CashbackBrandController::class);
+    Route::delete('cashback-brands', [\App\Http\Controllers\CashbackBrandController::class, 'bulkDelete'])->name('cashback-brands.bulkDelete');
+    Route::post('cashback-brands/reorder', [\App\Http\Controllers\CashbackBrandController::class, 'reorder'])->name('cashback-brands.reorder');
+    Route::patch('cashback-brands/{cashback_brand}/update-status', [\App\Http\Controllers\CashbackBrandController::class, 'updateStatus'])->name('cashback-brands.update-status');
+
+    /*
+    |--------------------------------------------------------------------------
     | Home Content Blocks Routes
     |--------------------------------------------------------------------------
     */

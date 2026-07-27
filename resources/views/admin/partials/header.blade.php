@@ -181,6 +181,26 @@
         </ul>
     </li>
 
+    {{-- Cashback Brands --}}
+    <li class="menu-item {{ request()->is('admin/cashback-brands', 'admin/cashback-brands/*') ? 'active open' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons ri-percent-line"></i>
+            <div>Cashback Brands</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item {{ request()->is('admin/cashback-brands/create') ? 'active' : '' }}">
+                <a href="{{ route('admin.cashback-brands.create') }}" class="menu-link">
+                    <div>Add Cashback Brand</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->is('admin/cashback-brands') && !request()->is('admin/cashback-brands/create') ? 'active' : '' }}">
+                <a href="{{ route('admin.cashback-brands.index') }}" class="menu-link">
+                    <div>View Cashback Brands</div>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     {{-- Home Content Blocks --}}
     <li class="menu-item {{ request()->is('admin/home-content-blocks', 'admin/home-content-blocks/*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">

@@ -256,6 +256,15 @@ class FrontendController extends Controller
             $homeContentBlocks = collect([]);
         }
 
+        // Load active cashback brand circles shown in the Exclusive Offers row
+        try {
+            $cashbackBrands = \App\Models\CashbackBrand::where('status', 1)
+                ->orderBy('sort_order', 'asc')
+                ->get();
+        } catch (\Exception $e) {
+            $cashbackBrands = collect([]);
+        }
+
         $response = response()->view('frontend.home.index', compact(
             'featuredCoupons',
             'featuredStores', 
@@ -277,7 +286,8 @@ class FrontendController extends Controller
             'sliders',
             'featuredBlogs',
             'spotlightCards',
-            'homeContentBlocks'
+            'homeContentBlocks',
+            'cashbackBrands'
         ));
         
         // Optimize response headers for faster TTFB and better caching

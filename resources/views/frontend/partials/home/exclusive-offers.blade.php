@@ -21,6 +21,50 @@
             </div>
         </div>
 
+        @php
+    $activeCashbackBrands = collect($cashbackBrands ?? [])->filter(function ($brand) {
+        return $brand->status == 1; // or $brand->is_active == 1
+    });
+@endphp
+
+@if($activeCashbackBrands->count() > 0)
+    <div class="cashback-row-wrap">
+        <div class="cashback-brands-row">
+            @foreach($activeCashbackBrands as $brand)
+                @php
+                    $isLink = filled($brand->redirect_url);
+                    $tag = $isLink ? 'a' : 'div';
+                @endphp
+
+                <{{ $tag }} @if($isLink) href="{{ $brand->redirect_url }}" @endif class="cb-item">
+                    <span class="cb-circle">
+                        @if($brand->logo)
+                            <img src="{{ asset($brand->logo) }}" alt="{{ $brand->store_name }}" loading="lazy">
+                        @else
+                            <span class="cb-letter">{{ strtoupper(substr($brand->store_name, 0, 1)) }}</span>
+                        @endif
+                    </span>
+
+                    <span class="cb-rate">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13 2L4.09 12.11a1 1 0 0 0 .76 1.65h5.44l-1.28 7.24a1 1 0 0 0 1.76.8L20.1 11.9a1 1 0 0 0-.76-1.65h-5.65L14.9 3a1 1 0 0 0-1.9-1z"/>
+                        </svg>
+                        {{ $brand->cashback_rate }}%
+                    </span>
+
+                    <span class="cb-label">Cash Back</span>
+                </{{ $tag }}>
+            @endforeach
+        </div>
+    </div>
+@else
+    <div class="empty-deals-state">
+        <div class="empty-icon">💎</div>
+        <h3>Premium Deals Loading</h3>
+        <p>We're currently negotiating exclusive rates for you.</p>
+    </div>
+@endif
+
         <div class="deals-premium-grid">
             @forelse($featuredCoupons ?? [] as $index => $coupon)
                 @php
@@ -88,11 +132,7 @@
                     </div>
                 </article>
             @empty
-                <div class="empty-deals-state">
-                    <div class="empty-icon">💎</div>
-                    <h3>Premium Deals Loading</h3>
-                    <p>We're currently negotiating exclusive rates for you.</p>
-                </div>
+                
             @endforelse
         </div>
     </div>
@@ -195,6 +235,98 @@
 .ultra-view-btn:hover .btn-icon {
     background: var(--p-red);
     transform: translateX(5px);
+}
+
+/* Cashback Brands circular row */
+.cashback-row-wrap {
+    margin-bottom: 40px;
+}
+
+.cashback-brands-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px 22px;
+}
+
+.cb-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 96px;
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+}
+
+.cb-circle {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--p-white);
+    border: 1px solid var(--p-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    margin-bottom: 10px;
+    transition: all .3s cubic-bezier(.2,1,.3,1);
+}
+
+.cb-item:hover .cb-circle {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,.1);
+    border-color: var(--p-red);
+}
+
+.cb-circle img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.cb-letter {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #cbd5e1;
+}
+
+.cb-rate {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: .95rem;
+    font-weight: 800;
+    color: var(--p-dark);
+}
+
+.cb-rate svg {
+    color: #16a34a;
+    flex-shrink: 0;
+}
+
+.cb-label {
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--p-slate);
+}
+
+@media (max-width: 768px) {
+    .cashback-row-wrap {
+        margin-bottom: 30px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+    .cashback-row-wrap::-webkit-scrollbar { display: none; }
+    .cashback-brands-row {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        width: max-content;
+        padding: 0 4px;
+    }
 }
 
 /* Grid Layout */

@@ -39,7 +39,7 @@
     @include('frontend.partials.home.hero')
     @include('frontend.partials.home.categories')
     @include('frontend.partials.home.spotlight-cards')
-    {{-- @include('frontend.partials.home.exclusive-offers') --}}
+    @include('frontend.partials.home.exclusive-offers')
     {{-- @include('frontend.partials.home.banner') --}}
     @include('frontend.partials.home.featured-brands')
     @include('frontend.partials.home.category-deals')
