@@ -40,12 +40,12 @@
     @include('frontend.partials.home.categories')
     @include('frontend.partials.home.spotlight-cards')
     @include('frontend.partials.home.exclusive-offers')
-    {{-- @include('frontend.partials.home.banner') --}}
     @include('frontend.partials.home.featured-brands')
     @include('frontend.partials.home.category-deals')
-    @include('frontend.partials.home.cta-banner')
+    @include('frontend.partials.home.shopping-savings-guide')
     @include('frontend.partials.home.page-content')
     @include('frontend.partials.home.home-content-blocks')
+    @include('frontend.partials.home.cta-banner')
 
 <!-- Blog Section -->
 <!-- <div class="blog-section">

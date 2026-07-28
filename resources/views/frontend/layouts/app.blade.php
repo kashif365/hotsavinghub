@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/mobile-optimizations.css') }}?v={{ $mobileVersion }}">
     {{-- Shared homepage design-system tokens/primitives (redesign) --}}
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/home-redesign.css') }}?v={{ $redesignVersion }}">
+    <link rel="stylesheet" href="{{ asset('frontend_assets/css/shopping-saving-guide.css') }}">
 
     {{-- Font Awesome 6.5.1 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

@@ -1,3 +1,25 @@
+<div class="hsg-container">
+<section class="hsg-checkout" aria-labelledby="hsg-checkout-title">
+            <div class="hsg-checkout-copy">
+                <span class="hsg-eyebrow">Before you place your order</span>
+                <h2 id="hsg-checkout-title">Find Shopping Codes Before Checkout</h2>
+                <p>Small savings can add up over time. Spend a few minutes comparing shopping codes before placing an order with fashion retailers, beauty stores, technology brands, home-improvement websites, subscription services, travel platforms or lifestyle brands.</p>
+                <p>Saving money does not happen only at checkout. Strong shopping habits help consumers get better long-term value and avoid unnecessary spending.</p>
+            </div>
+            <div class="hsg-checklist">
+                <h3>More Than Just Discounts</h3>
+                <ul>
+                    <li>Compare prices before buying</li>
+                    <li>Shop during seasonal events</li>
+                    <li>Use loyalty rewards and cashback</li>
+                    <li>Watch for exclusive promotions</li>
+                    <li>Combine eligible offers</li>
+                    <li>Plan around annual sale events</li>
+                </ul>
+            </div>
+        </section>
+        </div>
+
 <div class="featured-stores-section hsr-section">
     <div class="container">
         <div class="section-header">
@@ -76,6 +98,26 @@
     </div>
 </div>
 
+
+<div class="hsg-container">
+    <section class="hsg-panel" aria-labelledby="hsg-year-round">
+            <div class="hsg-panel-copy">
+                <span class="hsg-eyebrow">Always worth checking</span>
+                <h2 id="hsg-year-round">Smarter Shopping Throughout the Year</h2>
+                <p>Black Friday and holiday sales are not the only opportunities to save online. Retailers introduce discounts throughout the year, and staying informed can help shoppers find a better price at the right time.</p>
+            </div>
+            <ul class="hsg-chip-list" aria-label="Common promotional events">
+                <li>Seasonal campaigns</li>
+                <li>New product launches</li>
+                <li>Weekend sales</li>
+                <li>Anniversary promotions</li>
+                <li>Student offers</li>
+                <li>Clearance events</li>
+                <li>Flash sales</li>
+                <li>Holiday specials</li>
+            </ul>
+        </section>
+        </div>
 <style>
 .featured-stores-section { background-color: #f8f9fc; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
 .featured-stores-section .container { max-width: var(--container-max, 1280px); margin: 0 auto; padding: 0 24px; width: 100%; box-sizing: border-box; }

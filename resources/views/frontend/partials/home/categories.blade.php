@@ -1,3 +1,44 @@
+<div class="hsg-container">
+    <header class="hsg-intro">
+            <span class="hsg-eyebrow">Shop smarter with Hot Saving Hub</span>
+            <h2 id="hsg-guide-title">Your Guide to Smarter Online Savings</h2>
+            <p>From clothes and electronics to home essentials and travel, online shopping has become the go-to choice for many. Convenience matters, but savvy shoppers also want confidence that they are reducing their total spend. Hot Saving Hub brings trusted discounts, seasonal promotions and exclusive retailer offers together in one place.</p>
+            <p>Finding savings on everyday items or favourite brands during seasonal sales should never be difficult. Compare new offers from hundreds of stores without visiting several websites, and discover new ways to reduce the cost of each order. Our goal is simple: make online shopping more affordable without making it confusing.</p>
+        </header>
+
+        <div class="hsg-feature-grid">
+            <article class="hsg-feature hsg-feature--primary">
+                <span class="hsg-number">01</span>
+                <div>
+                    <h3>Find Verified Coupons and Deals in One Place</h3>
+                    <p>Online shoppers want assurance before they buy. Nobody wants to waste time on outdated promotions or codes that do not work, so we organise offers to make dependable savings easier to find.</p>
+                    <p>Browse discounts across fashion, electronics, beauty, software subscriptions, travel, home improvement and everyday essentials. Comparing offers before purchasing can reveal seasonal discounts, member-only promotions and free-delivery campaigns.</p>
+                </div>
+            </article>
+
+            <article class="hsg-feature">
+                <span class="hsg-number">02</span>
+                <div>
+                    <h3>Discover Promo Codes Faster</h3>
+                    <p>Searching for discounts by hand can be tedious, especially when many websites still show expired promotions. Our coupon finder groups current retailer offers by brand, category and popularity.</p>
+                    <p>Compare several stores without opening multiple browser windows. A convenient promo code finder helps save both time and money before checkout.</p>
+                </div>
+            </article>
+
+            <article class="hsg-feature">
+                <span class="hsg-number">03</span>
+                <div>
+                    <h3>Save More with Free Coupon Codes</h3>
+                    <p>Welcome offers, seasonal promotions, newsletter deals and member discounts give shoppers many ways to save. A genuine free coupon code can unlock percentage, fixed-price, bundle or event discounts without a membership fee.</p>
+                    <p>Remember to check for offers when ordering food too; even a small discount can improve the experience and help keep spending on budget.</p>
+                </div>
+            </article>
+        </div>
+</div>
+
+
+    
+
 <div class="modern-categories-section hsr-section">
     <div class="cat-container">
         <div class="cat-header">
