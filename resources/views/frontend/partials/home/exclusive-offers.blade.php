@@ -246,7 +246,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 30px 22px;
+    gap: 120px;
 }
 
 .cb-item {
@@ -260,18 +260,19 @@
 }
 
 .cb-circle {
-    width: 88px;
-    height: 88px;
+    width: 188px;
+    height: 188px;
     border-radius: 50%;
     background: var(--p-white);
     border: 1px solid var(--p-border);
-    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 14px;
     margin-bottom: 10px;
-    transition: all .3s cubic-bezier(.2,1,.3,1);
+    transition: all .3s cubic-bezier(.2, 1, .3, 1);
+    overflow: hidden;
 }
 
 .cb-item:hover .cb-circle {
