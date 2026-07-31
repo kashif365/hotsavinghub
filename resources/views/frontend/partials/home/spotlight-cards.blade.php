@@ -1,52 +1,51 @@
 @if(($spotlightCards ?? collect())->count() > 0)
-<section class="spotlight-section hsr-section container" style="margin-top:32px;">
+<section class="spotlight-section hsr-section" style="margin-top:32px;">
     <div class="hsr-container">
         <div class="spotlight-header">
             <span class="hsr-eyebrow">Top Deals</span>
             <h2 class="hsr-title">The Best Coupons, <span class="highlight-text">Promo Codes &amp; Cash Back Offers</span></h2>
         </div>
+    </div>
 
-        <div class="swiper spotlight-swiper">
-            <div class="swiper-wrapper">
-                @foreach($spotlightCards as $card)
-                    @php
-                        $isLink = filled($card->cta_url);
-                        $tag = $isLink ? 'a' : 'div';
-                    @endphp
-                    <div class="swiper-slide">
-                        <{{ $tag }} @if($isLink) href="{{ $card->cta_url }}" @endif class="spotlight-card">
-                            <div class="spotlight-card-media" style="background-color: {{ $card->bg_color ?: '#eef1f8' }};">
-                                @if($card->image)
-                                    <img class="spotlight-photo" src="{{ asset($card->image) }}" alt="{{ $card->heading ?: 'Spotlight offer' }}" loading="lazy">
-                                    @if($card->logo)
-                                        <span class="spotlight-card-logo spotlight-card-logo--badge">
-                                            <img src="{{ asset($card->logo) }}" alt="" loading="lazy">
-                                        </span>
-                                    @endif
-                                @elseif($card->logo)
-                                    <span class="spotlight-card-logo spotlight-card-logo--center">
+    <div class="swiper spotlight-swiper">
+        <div class="swiper-wrapper">
+            @foreach($spotlightCards as $card)
+                @php
+                    $isLink = filled($card->cta_url);
+                    $tag = $isLink ? 'a' : 'div';
+                @endphp
+                <div class="swiper-slide">
+                    <{{ $tag }} @if($isLink) href="{{ $card->cta_url }}" @endif class="spotlight-card">
+                        <div class="spotlight-card-media" style="background-color: {{ $card->bg_color ?: '#eef1f8' }};">
+                            @if($card->image)
+                                <img class="spotlight-photo" src="{{ asset($card->image) }}" alt="{{ $card->heading ?: 'Spotlight offer' }}" loading="lazy">
+                                @if($card->logo)
+                                    <span class="spotlight-card-logo spotlight-card-logo--badge">
                                         <img src="{{ asset($card->logo) }}" alt="" loading="lazy">
                                     </span>
                                 @endif
-                            </div>
+                            @elseif($card->logo)
+                                <span class="spotlight-card-logo spotlight-card-logo--center">
+                                    <img src="{{ asset($card->logo) }}" alt="" loading="lazy">
+                                </span>
+                            @endif
+                        </div>
 
-                            <div class="spotlight-card-body">
-                                @if($card->heading)
-                                    <p class="spotlight-card-heading">{{ $card->heading }}</p>
-                                @endif
-                                @if($card->cta_label)
-                                    <span class="spotlight-card-cta">
-                                        {{ $card->cta_label }}
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                    </span>
-                                @endif
-                            </div>
-                        </{{ $tag }}>
-                    </div>
-                @endforeach
-            </div>
+                        <div class="spotlight-card-body">
+                            @if($card->heading)
+                                <p class="spotlight-card-heading">{{ $card->heading }}</p>
+                            @endif
+                            @if($card->cta_label)
+                                <span class="spotlight-card-cta">
+                                    {{ $card->cta_label }}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </span>
+                            @endif
+                        </div>
+                    </{{ $tag }}>
+                </div>
+            @endforeach
         </div>
-        <div class="spotlight-pagination"></div>
     </div>
 </section>
 
@@ -60,9 +59,10 @@
 }
 
 .spotlight-swiper {
-    height: 300px;
-    overflow: visible;
-    padding-bottom: 4px;
+    width: 100%;
+    height: 310px;
+    overflow: hidden;
+    padding: 6px 0 12px;
 }
 .hsr-title{
     color: var(--dark-void);
@@ -245,7 +245,7 @@ font-weight: 800;
 
 @media (max-width: 768px) {
     .spotlight-header { margin-bottom: 1.25rem; }
-    .spotlight-swiper { height: 280px; }
+    .spotlight-swiper { height: 290px; }
 }
 </style>
 
@@ -255,18 +255,39 @@ font-weight: 800;
             var el = document.querySelector('.spotlight-swiper');
             if (!el || typeof Swiper === 'undefined') return;
 
+            var slideCount = el.querySelectorAll('.swiper-slide').length;
+            if (!slideCount) return;
+
+            // Show up to 4 full cards on desktop (2 on mobile), never more than the
+            // number of real cards available, and keep it auto-sliding whenever
+            // there's more than one card to cycle through. Swiper's clone-based
+            // `loop` mode is unreliable right at slideCount === slidesPerView * 2
+            // (it stalls after the first cycle — confirmed by hand), so we use
+            // `rewind` instead: it jumps back to slide 1 after the last one without
+            // the clone machinery, giving the same "auto-cycle forever" feel and
+            // working correctly at any slide count.
+            var desktopPerView = Math.min(4, slideCount);
+            var mobilePerView = Math.min(2, slideCount);
+            var canCycle = slideCount > mobilePerView || slideCount > desktopPerView;
+
             new Swiper(el, {
+                rewind: canCycle,
+                centeredSlides: false,
                 grabCursor: true,
                 watchOverflow: true,
-                slidesPerView: 1.15,
-                spaceBetween: 16,
+                slidesPerView: mobilePerView,
+                spaceBetween: 14,
                 speed: 500,
+                autoplay: canCycle ? {
+                    delay: 3000, // 3 seconds
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true
+                } : false,
                 keyboard: { enabled: true, onlyInViewport: true },
                 a11y: { enabled: true, prevSlideMessage: 'Previous offer', nextSlideMessage: 'Next offer' },
                 pagination: { el: '.spotlight-pagination', clickable: true },
                 breakpoints: {
-                    640: { slidesPerView: 2, spaceBetween: 18 },
-                    1024: { slidesPerView: 3, spaceBetween: 24 }
+                    1024: { slidesPerView: desktopPerView, spaceBetween: 24 }
                 }
             });
         }

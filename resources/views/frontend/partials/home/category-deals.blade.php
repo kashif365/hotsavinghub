@@ -20,18 +20,18 @@
 .hh-view-all { padding: 10px 22px; background: var(--hh-primary-glow); color: var(--hh-primary); border-radius: var(--radius-pill, 999px); text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: var(--hh-transition); border: 1px solid transparent; }
 .hh-view-all:hover { background: var(--hh-primary); color: #fff; transform: translateY(-2px); }
 .hh-view-all:focus-visible { outline: 3px solid var(--hh-primary); outline-offset: 2px; }
-.hh-bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
-.hh-deal-card { background: var(--hh-card-bg); border-radius: var(--radius-lg, 20px); border: 1px solid var(--hh-border-subtle); position: relative; transition: var(--hh-transition); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-card, 0 10px 30px -5px rgba(0,0,0,.05)); }
+.hh-bento-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1rem; }
+.hh-deal-card { background: var(--hh-card-bg); border-radius: 16px; border: 1px solid var(--hh-border-subtle); position: relative; transition: var(--hh-transition); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-card, 0 10px 30px -5px rgba(0,0,0,.05)); }
 .hh-deal-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-card-hover, 0 20px 40px -10px rgba(0,0,0,.12)); border-color: var(--hh-primary); }
-.hh-img-container { position: relative; height: 170px; margin: 12px; border-radius: var(--radius-card, 16px); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hh-img-container { position: relative; height: 130px; margin: 10px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .hh-img-container img { width: 100%; height: 100%; object-fit: cover; transition: var(--hh-transition); }
 .hh-deal-card:hover .hh-img-container img { transform: scale(1.08); }
-.hh-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.25rem; font-weight: 900; }
-.hh-card-body { padding: 0 1.35rem 1.35rem; display: flex; flex-direction: column; flex-grow: 1; }
-.hh-store-tag { font-size: 0.7rem; font-weight: 800; color: var(--hh-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-.hh-deal-title { font-size: 1.1rem; font-weight: 700; color: var(--hh-text-dark); line-height: 1.4; margin: 0 0 1.35rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 1.9em; }
+.hh-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.8rem; font-weight: 900; }
+.hh-card-body { padding: 0 1rem 1rem; display: flex; flex-direction: column; flex-grow: 1; }
+.hh-store-tag { font-size: 0.62rem; font-weight: 800; color: var(--hh-primary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.hh-deal-title { font-size: 0.92rem; font-weight: 700; color: var(--hh-text-dark); line-height: 1.4; margin: 0 0 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 1.65em; }
 .hh-btn-stack { margin-top: auto; position: relative; }
-.hh-main-btn { width: 100%; padding: 13px; border-radius: 12px; border: none; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: var(--hh-transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.hh-main-btn { width: 100%; padding: 10px; border-radius: 10px; border: none; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: var(--hh-transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
 .hh-main-btn:focus-visible { outline: 3px solid var(--hh-primary); outline-offset: 2px; }
 .hh-btn-code { background: var(--hh-text-dark); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
 .hh-btn-code:hover { background: var(--hh-primary); transform: scale(1.02); }
@@ -43,9 +43,10 @@
 .hh-empty-all { text-align: center; padding: 5rem 0; }
 .hh-empty-all p { font-size: 1.15rem; color: var(--hh-text-muted); }
 
-@media (max-width: 1200px) { .hh-bento-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 992px) { .hh-bento-grid { grid-template-columns: repeat(2, 1fr); } .hh-hide-tablet { display: none; } }
-@media (max-width: 640px) {
+@media (max-width: 1200px) { .hh-bento-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 992px) { .hh-bento-grid { grid-template-columns: repeat(3, 1fr); } .hh-hide-tablet { display: none; } }
+@media (max-width: 768px) { .hh-bento-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) {
     .hh-bento-grid { grid-template-columns: 1fr; }
     .hh-cat-title { font-size: 1.35rem; }
     .hh-hide-mobile { display: none; }

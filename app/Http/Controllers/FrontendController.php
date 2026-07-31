@@ -212,9 +212,12 @@ class FrontendController extends Controller
             $sliders = collect([]);
         }
 
-        // Load featured/recent blog posts for home page - 6 for desktop, CSS will hide 2 on mobile
+        // Load the 5 latest published blog posts for the home page bento layout.
+        // Featured/recommended posts (if any) are shown first, then filled out with
+        // the most recent posts up to 5 - so the grid always has 5 as long as 5
+        // published posts exist, regardless of how many are flagged.
         try {
-            $featuredBlogs = \App\Models\Blog::with('category')
+            $pinnedBlogs = \App\Models\Blog::with('category')
                 ->where('status', 'published')
                 ->where(function($query) {
                     $query->where('featured', 1)
@@ -222,16 +225,21 @@ class FrontendController extends Controller
                 })
                 ->orderBy('sort_order', 'asc')
                 ->orderBy('created_at', 'desc')
-                ->take(6)
+                ->take(5)
                 ->get();
-            
-            // If no featured blogs, get recent blogs
-            if ($featuredBlogs->isEmpty()) {
-                $featuredBlogs = \App\Models\Blog::with('category')
+
+            if ($pinnedBlogs->count() < 5) {
+                $remaining = 5 - $pinnedBlogs->count();
+                $fillerBlogs = \App\Models\Blog::with('category')
                     ->where('status', 'published')
+                    ->whereNotIn('id', $pinnedBlogs->pluck('id'))
                     ->orderBy('created_at', 'desc')
-                    ->take(6)
+                    ->take($remaining)
                     ->get();
+
+                $featuredBlogs = $pinnedBlogs->concat($fillerBlogs);
+            } else {
+                $featuredBlogs = $pinnedBlogs;
             }
         } catch (\Exception $e) {
             // If blogs table doesn't exist or has issues, return empty collection

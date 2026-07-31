@@ -32,7 +32,7 @@
                                 @if($isRich)
                                     @if($hasLeft)
                                     <div class="hsc-panel hsc-panel--left">
-                                        <img src="{{ $leftImgUrl }}" alt="" width="500" height="500" {!! $isFirst ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' !!}>
+                                        <img src="{{ $leftImgUrl }}" alt="" width="500" height="500" loading="eager" {!! $isFirst ? 'fetchpriority="high"' : '' !!}>
                                     </div>
                                     @endif
                                     <div class="hsc-panel hsc-panel--content">
@@ -44,13 +44,13 @@
                                 @endif
                                 <div class="hsc-panel hsc-panel--main">
                                     @if($mainImgUrl)
-                                        <img src="{{ $mainImgUrl }}" alt="{{ $slider->heading ?: 'Featured offer' }}" width="1200" height="500" {!! $isFirst ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' !!}>
+                                        <img src="{{ $mainImgUrl }}" alt="{{ $slider->heading ?: 'Featured offer' }}" width="1200" height="500" loading="eager" {!! $isFirst ? 'fetchpriority="high"' : '' !!}>
                                     @endif
                                 </div>
                             </div>
                             @if($hasLogo)
                                 <span class="hsc-badge" @if($slider->badge_color) style="--hsc-badge-color: {{ $slider->badge_color }};" @endif>
-                                    <img src="{{ $logoUrl }}" alt="{{ $slider->heading }} logo" width="130" height="130" loading="lazy" onerror="this.closest('.hsc-badge').style.display='none';">
+                                    <img src="{{ $logoUrl }}" alt="{{ $slider->heading }} logo" width="130" height="130" loading="eager" onerror="this.closest('.hsc-badge').style.display='none';">
                                 </span>
                             @endif
                             @if($slider->cta_url)
@@ -376,7 +376,25 @@
             var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
             var swiper = new Swiper(el, {
-                loop: multi,
+                // Swiper's clone-based `loop` mode is unreliable at this slide count:
+                // it either silently freezes the visual transform while still
+                // rotating slide content underneath (swiper.translate stops updating
+                // even as swiper.realIndex keeps advancing, leaving a stale/blank
+                // edge peek), or — with loopAdditionalSlides added to try to fix
+                // that — freezes autoplay outright. `rewind` gives the same
+                // "wrap around forever" feel for autoplay without either failure
+                // mode; confirmed via direct instrumentation that translate now
+                // updates correctly on every transition.
+                // Swiper's clone-based `loop` mode is broken in this setup: tested
+                // exhaustively (with/without centeredSlides, with/without
+                // watchOverflow, and loopAdditionalSlides at 0/2/6) and every variant
+                // either freezes the visual transform while slide content keeps
+                // rotating underneath (swiper.translate stops updating even as
+                // swiper.realIndex keeps advancing — confirmed by direct
+                // instrumentation), or freezes autoplay outright. `rewind` gives the
+                // same "wrap around forever" autoplay feel without either failure
+                // mode, verified working across multiple full rotations.
+                rewind: multi,
                 centeredSlides: true,
                 watchOverflow: true,
                 grabCursor: multi,
