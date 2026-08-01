@@ -304,124 +304,271 @@
     }
 }
 
-/* Override store.css - Keep buttons as buttons on all screen sizes, remove arrows */
-.cpns.wd .cpn .cpBtn {
-    width: 170px !important;
-    padding: 12px 12px !important;
-    font-size: 14px !important;
-    height: auto !important;
-    color: #fff !important;
-    background-color: var(--primary-color) !important;
-    justify-content: center !important;
-    margin: 0 !important;
-    display: inline-flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    border-radius: 8px !important;
+/* ==========================================================================
+   Offer Cards (category page) — dark trust-signal card, site theme colors
+   ========================================================================== */
+.offer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
 }
 
-.cpns.wd .cpn .cpBtn.reveal-code {
-    background-color: #f2f0e6 !important;
-    color: #fff !important;
-    padding-right: 30px !important;
-    position: relative !important;
-    overflow: hidden !important;
+.offer-card {
+    background: #181a20;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    padding: 20px 22px;
+    color: #fff;
+    font-family: inherit;
 }
 
-.cpns.wd .cpn .cpBtn.reveal-code::before {
-    content: attr(data-code) !important;
-    font-family: inherit !important;
-    display: inline-flex !important;
-    position: absolute !important;
-    width: 50px !important;
-    height: 100% !important;
-    top: 0 !important;
-    right: 0 !important;
-    align-items: center !important;
-    padding: 0 15px 0 0 !important;
-    overflow: hidden !important;
-    border: 2px dashed var(--primary-color) !important;
-    border-left: 0 !important;
-    text-transform: uppercase !important;
-    justify-content: end !important;
-    box-sizing: border-box !important;
-    border-radius: 0 9px 9px 0 !important;
-    color: #0f0f0f !important;
-    z-index: -1 !important;
-    font-size: 14px !important;
+.offer-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
 }
 
-.cpns.wd .cpn .cpBtn.reveal-code::after {
-    content: "" !important;
-    position: absolute !important;
-    width: 100% !important;
-    height: calc(100% + 2px) !important;
-    background-color: var(--primary-color) !important;
-    top: 0 !important;
-    right: 34px !important;
-    transform: skewX(25deg) !important;
-    transition: .2s ease-in-out !important;
-    z-index: -1 !important;
-    display: block !important;
+.offer-logo {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-.cpns.wd .cpn .cpBtn.get-deal::before {
-    display: none !important;
-    content: none !important;
+.offer-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
 }
 
-.cpns.wd .cpn .cpBtn.get-deal::after {
-    display: none !important;
-    content: none !important;
+.offer-logo span {
+    color: var(--primary-color, #2951c4);
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 
-.cpns.wd .cpn .cpBtn.get-code::before {
-    display: none !important;
-    content: none !important;
+.offer-headline {
+    flex: 1;
+    min-width: 0;
 }
 
-.cpns.wd .cpn .cpBtn.get-code::after {
-    display: none !important;
-    content: none !important;
+.offer-discount {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
 }
 
-@media (max-width: 767px) {
-    .cpns.wd .cpn .cpBtn {
-        width: 150px !important;
-    }
+.offer-cta {
+    flex-shrink: 0;
+    border: none;
+    background: var(--primary-color, #2951c4);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.offer-cta:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+.offer-cta:focus-visible {
+    outline: 3px solid var(--primary-color, #2951c4);
+    outline-offset: 2px;
+}
+
+.offer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.offer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd1dc;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.offer-badge--verified {
+    color: var(--primary-color, #2951c4);
+    border-color: color-mix(in srgb, var(--primary-color, #2951c4) 45%, transparent);
+    background: color-mix(in srgb, var(--primary-color, #2951c4) 14%, transparent);
+}
+
+.offer-badge--verified svg {
+    width: 12px;
+    height: 12px;
+}
+
+.offer-title {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e7e9ee;
+    line-height: 1.45;
+}
+
+.offer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    margin-bottom: 16px;
+}
+
+.offer-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #8b91a0;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.offer-meta-item svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: #6b7280;
+}
+
+.offer-verify-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 10px 16px;
+    cursor: pointer;
+    color: #cbd1dc;
+    font: inherit;
+    text-align: left;
+    transition: background 0.2s ease;
+}
+
+.offer-verify-bar:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.offer-verify-bar:focus-visible {
+    outline: 3px solid var(--primary-color, #2951c4);
+    outline-offset: 2px;
+}
+
+.offer-avatars {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.offer-avatars span {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color, #2951c4);
+    border: 2px solid #181a20;
+    margin-left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.offer-avatars span:first-child {
+    margin-left: 0;
+}
+
+.offer-avatars span:nth-child(2) {
+    filter: brightness(0.82);
+}
+
+.offer-avatars span:nth-child(3) {
+    filter: brightness(0.64);
+}
+
+.offer-avatars svg {
+    width: 12px;
+    height: 12px;
+    color: #fff;
+}
+
+.offer-verify-text {
+    flex: 1;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.offer-chevron {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    transition: transform 0.25s ease;
+}
+
+.offer-verify-bar[aria-expanded="true"] .offer-chevron {
+    transform: rotate(180deg);
+}
+
+.offer-terms {
+    margin-top: 10px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: #a9afba;
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+.offer-terms h4 {
+    margin: 0 0 6px;
+    color: #e7e9ee;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 @media (max-width: 550px) {
-    .cpns.wd .cpn .cpBtn {
-        max-width: 200px !important;
-        padding: 12px 12px !important;
-        font-size: 14px !important;
-        height: auto !important;
-        color: #fff !important;
-        background-color: var(--primary-color) !important;
-        justify-content: center !important;
-        margin: 0 !important;
+    .offer-card {
+        padding: 16px;
     }
 
-    .cpns.wd .cpn .cpBtn.reveal-code {
-        background-color: #f2f0e6 !important;
-        color: #fff !important;
-        padding-right: 30px !important;
+    .offer-top {
+        flex-wrap: wrap;
     }
 
-    .cpns.wd .cpn .cpBtn.reveal-code::before {
-        content: attr(data-code) !important;
-        display: inline-flex !important;
+    .offer-cta {
+        order: 3;
+        width: 100%;
+        text-align: center;
     }
 
-    .cpns.wd .cpn .cpBtn.get-deal::before {
-        display: none !important;
-        content: none !important;
-    }
-
-    .cpns.wd .cpn .cpBtn.get-code::before {
-        display: none !important;
-        content: none !important;
+    .offer-discount {
+        font-size: 1.1rem;
     }
 }
 <style/>
@@ -616,6 +763,17 @@ document.addEventListener('DOMContentLoaded', function () {
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (overlay) overlay.addEventListener('click', closeModal);
 
+  // Offer card: toggle the "people used this code" bar to reveal Terms & Conditions
+  document.querySelectorAll('[data-offer-toggle]').forEach(function (bar) {
+    const terms = bar.nextElementSibling;
+    if (!terms || !terms.classList.contains('offer-terms')) return;
+    bar.addEventListener('click', function () {
+      const isOpen = bar.getAttribute('aria-expanded') === 'true';
+      bar.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      terms.hidden = isOpen;
+    });
+  });
+
   try {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('show_coupon') === '1') {
@@ -775,75 +933,112 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="splt Wrp">
     <!-- coupon side -->
     <div class="wgtc">
-      <div class="cpns wd">
+      <div class="cpns wd offer-list">
         @if($categoryCoupons->count() > 0)
             @foreach($categoryCoupons as $coupon)
+            @php
+                $discountPercent = null;
+                if (preg_match('/(\d+)%/', $coupon->coupon_title, $matches)) {
+                    $discountPercent = (int) $matches[1];
+                }
+                $lastUsedText = $coupon->usages_max_created_at
+                    ? \Illuminate\Support\Carbon::parse($coupon->usages_max_created_at)->diffForHumans()
+                    : null;
+                $totalUses = $coupon->used_count ?? 0;
+            @endphp
             <!-- coupon:code <start> -->
-            <div class="cpn {{ $coupon->coupon_code ? 'cd' : 'dl' }} {{ $coupon->free_shipping ? 'fs' : '' }} {{ $coupon->student_offer ? 'std' : '' }}" data-id="{{ $coupon->id }}">
-                <button title="Add to Favourite" class="cfb bp_save hideIconS" aria-label="Add to Favourite"></button>
-
-                <a class="clgo" href="javascript:;" title="{{ $coupon->brand_store }} Vouchers Code">
-                    @if($coupon->store && $coupon->store->store_logo)
-                        <img src="{{ asset( $coupon->store->store_logo) }}" alt="{{ $coupon->brand_store }} discount code" title="{{ $coupon->brand_store }} discount code" decoding="async" loading="lazy" width="90" height="90">
-                    @else
-                        <div class="store-logo-placeholder">{{ substr($coupon->brand_store, 0, 2) }}</div>
-                    @endif
-                </a>
-
-                <div class="ccnt">
-                    <div class="ctp">
-                        @if($coupon->verified)
-                            <span class="cvrf">Verified</span>
+            <article class="offer-card" data-id="{{ $coupon->id }}">
+                <div class="offer-top">
+                    <div class="offer-logo">
+                        @if($coupon->store && $coupon->store->store_logo)
+                            <img src="{{ asset($coupon->store->store_logo) }}" alt="{{ $coupon->brand_store }} discount code" title="{{ $coupon->brand_store }} discount code" decoding="async" loading="lazy" width="48" height="48">
+                        @else
+                            <span>{{ substr($coupon->brand_store, 0, 2) }}</span>
                         @endif
                     </div>
-                    <h3 role="button" aria-label="{{ $coupon->coupon_code ? 'Reveal Code' : 'Get Deal' }}" title="{{ $coupon->coupon_title }}">
-                        {{ $coupon->coupon_title }}
-                    </h3>
+                    <div class="offer-headline">
+                        <span class="offer-discount">{{ $discountPercent ? $discountPercent . '% off' : $coupon->brand_store }}</span>
+                    </div>
 
-                    <div class="cbt">
-                        @if($coupon->terms)
-                            <button class="ctb" title="Terms" aria-label="Details">Details</button>
-                        @endif
-                        <span class="cusd" data-coupon-id="{{ $coupon->id }}" data-used-count="{{ $coupon->used_count ?? $coupon->sort_order ?? rand(500, 5000) }}">
-                            <span class="total-used">{{ number_format($coupon->used_count ?? $coupon->sort_order ?? rand(500, 5000)) }}</span> Used - <span class="today-used">{{ $coupon->today_usage_count ?? 0 }}</span> Today
-                        </span>
+                    @if($coupon->student_offer)
+                        <button class="offer-cta cpBtn get-code" title="Get Code" aria-label="Get Code"
+                                data-code="{{ $coupon->coupon_code ?? '' }}"
+                                data-affiliate="{{ $coupon->affiliate_url ?? ($coupon->store ? $coupon->store->affiliate_url : url('/')) }}"
+                                data-store="{{ $coupon->brand_store }}"
+                                data-title="{{ $coupon->coupon_title }}">
+                            Get Code
+                        </button>
+                    @elseif($coupon->coupon_code)
+                        <button class="offer-cta cpBtn reveal-code" title="Show Code" aria-label="Show Code"
+                                data-code="{{ $coupon->coupon_code }}"
+                                data-affiliate="{{ $coupon->affiliate_url ?? ($coupon->store ? $coupon->store->affiliate_url : url('/')) }}"
+                                data-store="{{ $coupon->brand_store }}"
+                                data-title="{{ $coupon->coupon_title }}">
+                            Show Code
+                        </button>
+                    @else
+                        <button class="offer-cta cpBtn get-deal" aria-label="Get Deal"
+                                data-affiliate="{{ $coupon->affiliate_url ?? ($coupon->store ? $coupon->store->affiliate_url : url('/')) }}"
+                                data-store="{{ $coupon->brand_store }}"
+                                data-title="{{ $coupon->coupon_title }}">
+                            Get Deal
+                        </button>
+                    @endif
                 </div>
-            </div>
 
-                @if($coupon->student_offer)
-                    <button class="cpBtn get-code" title="Get Code" aria-label="Get Code"
-                            data-code="{{ $coupon->coupon_code ?? '' }}"
-                            data-affiliate="{{ $coupon->affiliate_url ?? ($coupon->store ? $coupon->store->affiliate_url : url('/')) }}"
-                            data-store="{{ $coupon->brand_store }}"
-                            data-title="{{ $coupon->coupon_title }}">
-                        Get Code
-                    </button>
-                @elseif($coupon->coupon_code)
-                    <button class="cpBtn reveal-code" title="Reveal Code" aria-label="Reveal Code"
-                            data-code="{{ $coupon->coupon_code }}"
-                            data-affiliate="{{ $coupon->affiliate_url ?? ($coupon->store ? $coupon->store->affiliate_url : url('/')) }}"
-                            data-store="{{ $coupon->brand_store }}"
-                            data-title="{{ $coupon->coupon_title }}">
-                        Reveal Code
-                    </button>
-                @else
-                    <button class="cpBtn get-deal" aria-label="Get Deal"
-                            data-affiliate="{{ $coupon->affiliate_url ?? ($coupon->store ? $coupon->store->affiliate_url : url('/')) }}"
-                            data-store="{{ $coupon->brand_store }}"
-                            data-title="{{ $coupon->coupon_title }}">
-                        Get Deal
-                    </button>
-                @endif
+                <div class="offer-badges">
+                    <span class="offer-badge">{{ $coupon->coupon_code ? 'Code' : 'Deal' }}</span>
+                    @if($coupon->verified)
+                        <span class="offer-badge offer-badge--verified">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Verified
+                        </span>
+                    @endif
+                    @if($coupon->free_shipping)
+                        <span class="offer-badge">Free Shipping</span>
+                    @endif
+                    @if($coupon->student_offer)
+                        <span class="offer-badge">Student Offer</span>
+                    @endif
+                </div>
+
+                <p class="offer-title" title="{{ $coupon->coupon_title }}">{{ $coupon->coupon_title }}</p>
+
+                <div class="offer-meta">
+                    @if($lastUsedText)
+                        <span class="offer-meta-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline></svg>
+                            Last used: {{ $lastUsedText }}
+                        </span>
+                    @endif
+                    <span class="cusd" data-coupon-id="{{ $coupon->id }}" style="display:contents;">
+                        <span class="offer-meta-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Uses today: <span class="today-used">{{ $coupon->today_usage_count ?? 0 }}</span>
+                        </span>
+                        <span class="offer-meta-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24L3 3v6.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l4.6-4.6a2 2 0 0 0 0-2.82Z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg>
+                            <span class="total-used">{{ number_format($totalUses) }}</span> total uses
+                        </span>
+                    </span>
+                </div>
 
                 @if($coupon->terms)
-                <div class="ctc" style="display: none;">
-                    <h3>Terms & Conditions</h3>
-                    <div class="dyncnt">
-                        {!! nl2br(e($coupon->terms)) !!}
+                    <button type="button" class="offer-verify-bar" data-offer-toggle aria-expanded="false">
+                        <span class="offer-avatars" aria-hidden="true">
+                            @for($a = 0; $a < 3; $a++)
+                                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                            @endfor
+                        </span>
+                        <span class="offer-verify-text">{{ number_format($totalUses) }} people used this code</span>
+                        <svg class="offer-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="offer-terms" hidden>
+                        <h4>Terms &amp; Conditions</h4>
+                        <div>{!! nl2br(e($coupon->terms)) !!}</div>
                     </div>
-                </div>
                 @endif
-            </div>
+            </article>
             <!-- coupon:code <end> -->
             @endforeach
 

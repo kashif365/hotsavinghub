@@ -1,7 +1,11 @@
 {{-- Swiper is used by both this hero carousel and the Featured Brands carousel further
      down the page — load it unconditionally so deactivating all hero sliders (which
-     skips the block below) doesn't also break the Featured Brands carousel. --}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
+     skips the block below) doesn't also break the Featured Brands carousel.
+     The stylesheet itself now loads from <head> (see app.blade.php) so it's guaranteed
+     to block first paint like every other stylesheet — loading it here, mid-body, let
+     the page render before the CDN CSS arrived, so every carousel would flash as a raw
+     unstyled slide list before snapping into place once Swiper caught up. The script
+     stays here so it still loads before this and every later carousel's init script. --}}
 <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js"></script>
 @if($sliders && $sliders->count() > 0)
 <section class="hsc-hero">

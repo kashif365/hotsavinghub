@@ -13,6 +13,11 @@
     {{-- User can add custom meta tags here using @push('meta') in any view --}}
     @stack('meta')
 
+    {{-- Speed up the connection to third-party CSS/JS CDNs before their <link>/<script>
+         tags are even reached, so the blocking stylesheet below arrives sooner instead
+         of paying DNS+TLS setup time on top of the download itself. --}}
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     {{-- Load CSS files normally - restored from PageSpeed optimizations --}}
     @php
@@ -41,6 +46,14 @@
 
     {{-- Font Awesome 6.5.1 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    {{-- Swiper (carousels: hero, spotlight cards, featured brands, category track).
+         Loaded here in <head> — not down in hero.blade.php where it used to live —
+         so it blocks first paint exactly like every other stylesheet. It was
+         previously loaded mid-body, which let the page paint before this CDN CSS
+         arrived, so every carousel briefly showed as a raw unstyled slide list
+         before snapping into place once Swiper's layout rules finally applied. --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
 
     @stack('styles')
 

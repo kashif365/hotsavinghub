@@ -1,4 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Font Awesome is already loaded once, in <head>, by app.blade.php (v6.5.1, a superset
+     of this older beta3 build) — this duplicate mid-body copy was a second CDN request
+     loading late in the body, contributing to the "styles arrive late" flash. -->
 <!-- sidenv: Side Navigation <component:start> -->
 <nav class="sidenv">
     <!-- snhead: Side Navigation Head <start> -->
@@ -3030,7 +3032,15 @@
 
   // ---- Compact Dropdown Menus (desktop) — shared by Trending and Categories ----
   (function () {
-      function initCompactDropdown(wrapId, triggerId, panelId) {
+      // Shared across both instances so only one of Trending/Categories can ever be
+      // open at once. Previously each menu tracked its own open/close timers in total
+      // isolation (open delay 120ms, close delay 300ms) — moving the cursor from one
+      // trigger straight to the other let the new menu's open timer fire before the
+      // old menu's close timer did, leaving both visibly "active" at the same time.
+      let activeDropdown = null;
+      const instances = {};
+
+      function initCompactDropdown(name, wrapId, triggerId, panelId) {
           const wrap = document.getElementById(wrapId);
           const trigger = document.getElementById(triggerId);
           const panel = document.getElementById(panelId);
@@ -3049,31 +3059,38 @@
               storePanels.forEach((sp) => sp.classList.toggle('is-active', sp.dataset.catPanel === target));
           }
 
-          function openMenu() {
-              clearTimeout(closeTimer);
-              clearTimeout(openTimer);
-              panel.classList.add('is-open');
-              trigger.classList.add('is-open');
-              trigger.setAttribute('aria-expanded', 'true');
-          }
-
           function closeMenu(focusTrigger) {
               clearTimeout(closeTimer);
               clearTimeout(openTimer);
               panel.classList.remove('is-open');
               trigger.classList.remove('is-open');
               trigger.setAttribute('aria-expanded', 'false');
+              if (activeDropdown === name) activeDropdown = null;
               if (focusTrigger) trigger.focus();
+          }
+
+          function openMenu() {
+              clearTimeout(closeTimer);
+              clearTimeout(openTimer);
+              // Enforce "only one active dropdown": close the other one immediately,
+              // bypassing its own close delay entirely, before opening this one.
+              if (activeDropdown && activeDropdown !== name && instances[activeDropdown]) {
+                  instances[activeDropdown].closeMenu(false);
+              }
+              activeDropdown = name;
+              panel.classList.add('is-open');
+              trigger.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
           }
 
           function scheduleClose() {
               clearTimeout(closeTimer);
-              closeTimer = setTimeout(() => closeMenu(false), 300);
+              closeTimer = setTimeout(() => closeMenu(false), 150);
           }
 
           function scheduleOpen() {
               clearTimeout(openTimer);
-              openTimer = setTimeout(openMenu, 120);
+              openTimer = setTimeout(openMenu, 100);
           }
 
           trigger.addEventListener('click', function (e) {
@@ -3133,10 +3150,12 @@
                   closeMenu(false);
               }
           });
+
+          instances[name] = { openMenu, closeMenu };
       }
 
-      initCompactDropdown('trendMenu', 'trendMenuTrigger', 'trendMenuPanel');
-      initCompactDropdown('catMenu', 'catMenuTrigger', 'catMenuPanel');
+      initCompactDropdown('trending', 'trendMenu', 'trendMenuTrigger', 'trendMenuPanel');
+      initCompactDropdown('categories', 'catMenu', 'catMenuTrigger', 'catMenuPanel');
   })();
 
   // ---- Categories Accordion (mobile sidenav) ----

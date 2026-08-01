@@ -826,6 +826,7 @@ class FrontendController extends Controller
         ->withCount(['usages as today_usage_count' => function($query) {
             $query->whereDate('usage_date', today());
         }])
+        ->withMax('usages', 'created_at')
         ->orderBy('sort_order', 'asc')
         ->take(12)
         ->get();
