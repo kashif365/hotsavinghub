@@ -55,7 +55,7 @@
 }
 
 .spotlight-header {
-    margin-bottom: 1.75rem;
+    margin-bottom: 2.5rem;
 }
 
 .spotlight-swiper {
@@ -244,7 +244,7 @@ font-weight: 800;
 }
 
 @media (max-width: 768px) {
-    .spotlight-header { margin-bottom: 1.25rem; }
+    .spotlight-header { margin-bottom: 1.75rem; max-width: none; }
     .spotlight-swiper { height: 290px; }
 }
 </style>

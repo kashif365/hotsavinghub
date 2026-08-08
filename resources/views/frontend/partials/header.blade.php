@@ -3052,7 +3052,6 @@
           const items = Array.from(panel.querySelectorAll('.cat-menu-item'));
           const storePanels = Array.from(panel.querySelectorAll('.cat-menu-store-panel'));
           let closeTimer = null;
-          let openTimer = null;
 
           function selectCategory(target) {
               items.forEach((item) => item.classList.toggle('is-active', item.dataset.catTarget === target));
@@ -3061,7 +3060,6 @@
 
           function closeMenu(focusTrigger) {
               clearTimeout(closeTimer);
-              clearTimeout(openTimer);
               panel.classList.remove('is-open');
               trigger.classList.remove('is-open');
               trigger.setAttribute('aria-expanded', 'false');
@@ -3071,7 +3069,6 @@
 
           function openMenu() {
               clearTimeout(closeTimer);
-              clearTimeout(openTimer);
               // Enforce "only one active dropdown": close the other one immediately,
               // bypassing its own close delay entirely, before opening this one.
               if (activeDropdown && activeDropdown !== name && instances[activeDropdown]) {
@@ -3088,11 +3085,9 @@
               closeTimer = setTimeout(() => closeMenu(false), 150);
           }
 
-          function scheduleOpen() {
-              clearTimeout(openTimer);
-              openTimer = setTimeout(openMenu, 100);
-          }
-
+          // Click-to-open only — no hover. Previously mouseenter/mouseleave opened and
+          // closed this on hover; that's gone, so the trigger now behaves like a normal
+          // click-toggled dropdown button (still closes on click-outside/Escape/tab-away below).
           trigger.addEventListener('click', function (e) {
               e.preventDefault();
               if (panel.classList.contains('is-open')) {
@@ -3101,9 +3096,6 @@
                   openMenu();
               }
           });
-
-          wrap.addEventListener('mouseenter', scheduleOpen);
-          wrap.addEventListener('mouseleave', scheduleClose);
 
           // Note: intentionally NOT opening on focusin. A real click (and Enter/Space on the
           // button) fires focus *before* the click event, so an immediate open-on-focus would

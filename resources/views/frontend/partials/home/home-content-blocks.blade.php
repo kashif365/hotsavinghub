@@ -13,7 +13,7 @@
 
 <style>
 .home-extra-content-section {
-    /* padding: 3.5rem 0; */
+    padding: 3.5rem 0;
     background: #ffffff;
 }
 
