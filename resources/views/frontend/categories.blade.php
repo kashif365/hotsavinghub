@@ -236,7 +236,7 @@
       <div class="ph-dec"></div>
 
       <div class="ph-cnt">
-        <h1>Browse by Categories</h1>
+        <h1>Browse By Categories</h1>
         <p>Find verified discount codes and deals organised by department — from fashion to electronics.</p>
       </div>
 
