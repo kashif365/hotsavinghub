@@ -1,3 +1,4 @@
+```yaml
 deployment:
   tasks:
     - export APPPATH="/home2/socialof/hotsavinghub_public/HotSavingHub"
@@ -20,14 +21,24 @@ deployment:
     - /bin/cp package-lock.json "$APPPATH/"
     - /bin/cp vite.config.js "$APPPATH/"
 
-    # Install PHP dependencies
+    # Remove old Laravel package caches BEFORE Composer
+    - cd "$APPPATH" && rm -f bootstrap/cache/packages.php
+    - cd "$APPPATH" && rm -f bootstrap/cache/services.php
+
+    # Install PHP dependencies without running Laravel scripts
     - cd "$APPPATH" && /opt/cpguard/app/resources/tools/composer install --no-dev --optimize-autoloader --no-scripts
+
+    # Remove package caches again after Composer
+    - cd "$APPPATH" && rm -f bootstrap/cache/packages.php
+    - cd "$APPPATH" && rm -f bootstrap/cache/services.php
 
     # Rebuild Laravel package discovery
     - cd "$APPPATH" && php artisan package:discover --ansi
 
-    # Install frontend dependencies and build
+    # Install frontend dependencies
     - cd "$APPPATH" && npm ci --include=optional
+
+    # Build Vite production assets
     - cd "$APPPATH" && npm run build
 
     # Run database migrations
@@ -36,9 +47,12 @@ deployment:
     # Ensure storage symlink exists
     - cd "$APPPATH" && php artisan storage:link || true
 
-    # Clear and rebuild Laravel caches
+    # Clear Laravel caches
     - cd "$APPPATH" && php artisan optimize:clear
+
+    # Rebuild Laravel caches
     - cd "$APPPATH" && php artisan optimize
 
-    # Deploy public files including hidden files
+    # Deploy public directory including hidden files
     - /bin/cp -R public/. "$PUBLICPATH/"
+```
