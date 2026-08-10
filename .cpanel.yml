@@ -1,6 +1,44 @@
----
 deployment:
   tasks:
-    - export DEPLOYPATH="/home2/socialof/hotsaving_app/HotSaving\ Hub/"
-    - /bin/cp -R * "$DEPLOYPATH"
-    - /bin/cp -R public/* "/home2/socialof/hotsavinghub_public/"
+    - export APPPATH="/home2/socialof/hotsavinghub_public/HotSavingHub"
+    - export PUBLICPATH="/home2/socialof/hotsavinghub_public"
+    - export PATH="/opt/alt/alt-nodejs20/root/usr/bin:$PATH"
+
+    # Deploy Laravel application files
+    - /bin/cp -R app "$APPPATH/"
+    - /bin/cp -R bootstrap "$APPPATH/"
+    - /bin/cp -R config "$APPPATH/"
+    - /bin/cp -R database "$APPPATH/"
+    - /bin/cp -R resources "$APPPATH/"
+    - /bin/cp -R routes "$APPPATH/"
+    - /bin/cp -R storage "$APPPATH/"
+    - /bin/cp -R tests "$APPPATH/"
+    - /bin/cp artisan "$APPPATH/"
+    - /bin/cp composer.json "$APPPATH/"
+    - /bin/cp composer.lock "$APPPATH/"
+    - /bin/cp package.json "$APPPATH/"
+    - /bin/cp package-lock.json "$APPPATH/"
+    - /bin/cp vite.config.js "$APPPATH/"
+
+    # Install PHP dependencies
+    - cd "$APPPATH" && /opt/cpguard/app/resources/tools/composer install --no-dev --optimize-autoloader --no-scripts
+
+    # Rebuild Laravel package discovery
+    - cd "$APPPATH" && php artisan package:discover --ansi
+
+    # Install frontend dependencies and build
+    - cd "$APPPATH" && npm ci --include=optional
+    - cd "$APPPATH" && npm run build
+
+    # Run database migrations
+    - cd "$APPPATH" && php artisan migrate --force
+
+    # Ensure storage symlink exists
+    - cd "$APPPATH" && php artisan storage:link
+
+    # Clear and rebuild Laravel caches
+    - cd "$APPPATH" && php artisan optimize:clear
+    - cd "$APPPATH" && php artisan optimize
+
+    # Deploy public files
+    - /bin/cp -R public/* "$PUBLICPATH/"
