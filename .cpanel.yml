@@ -34,11 +34,11 @@ deployment:
     - cd "$APPPATH" && php artisan migrate --force
 
     # Ensure storage symlink exists
-    - cd "$APPPATH" && php artisan storage:link
+    - cd "$APPPATH" && php artisan storage:link || true
 
     # Clear and rebuild Laravel caches
     - cd "$APPPATH" && php artisan optimize:clear
     - cd "$APPPATH" && php artisan optimize
 
-    # Deploy public files
-    - /bin/cp -R public/* "$PUBLICPATH/"
+    # Deploy public files including hidden files
+    - /bin/cp -R public/. "$PUBLICPATH/"
